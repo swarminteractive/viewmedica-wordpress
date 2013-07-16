@@ -1,6 +1,5 @@
 <?php  
-	//sexy form
-	
+
 	global $wpdb;
 	$table_name = $wpdb->prefix . 'viewmedica';
 	
