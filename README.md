@@ -18,4 +18,4 @@ Download the latest release of the plugin at http://wordpress.org/plugins/viewme
 
 4. Create a new post and use the ViewMedica button to insert shortcode into your posts. Alternatively, you can also manually insert this shortcode: [viewmedica]
 
-5. Embed codes can be found on your ViewMedica account at http://viewmedica.com/vm/login under the "Installation Support" section.
+5. Select a video that you would like to embed from the dropdown and an openthis code will be filled out for you automatically. Embed codes can also be found on your ViewMedica account at http://viewmedica.com/vm/login under the "Installation Support" section.
