@@ -2,9 +2,9 @@
 
 /*
     Plugin Name: ViewMedica Embed
-    Plugin URI: http://swarminteractive.com/
+    Plugin URI: http://viewmedica.com/
     Description: Allows easy embed of ViewMedica 7 into WordPress Posts and Pages. A full description, info and pull requests can be found at https://github.com/asethwright/viewmedica-wordpress
-    Version: 1.0
+    Version: 1.2.5
     Author: Seth Wright & Anthony Lobianco
     Author URI: http://swarminteractive.com/
 
