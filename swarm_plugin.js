@@ -74,7 +74,7 @@ function vm_plugin_init() {
 
         jQuery.ajax({
             dataType: "json",
-            url: 'http://swarminteractive.com/vm/index/client_json/' + vm_client,
+            url: 'https://swarminteractive.com/vm/index/client_json/' + vm_client,
             success: function(data) {
                 build(data, form);
             }
