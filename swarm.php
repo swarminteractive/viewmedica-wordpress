@@ -4,13 +4,13 @@
     Plugin Name: ViewMedica Embed
     Plugin URI: http://viewmedica.com/
     Description: Allows easy embed of ViewMedica 7 into WordPress Posts and Pages. A full description, info and pull requests can be found at https://github.com/asethwright/viewmedica-wordpress
-    Version: 1.2.7
-    Author: Seth Wright & Anthony Lobianco
+    Version: 1.3.1
+    Author: Swarm Interactive, Inc.
     Author URI: http://swarminteractive.com/
 
-    Copyright 2011  ANTHONY_LOBIANCO SETH_WRIGHT
+    Copyright 2017 SWARM_INTERACTIVE
 
-    (email : anthony@swarminteractive.com, seth@swarminteractive.com)
+    (email : support@swarminteractive.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
@@ -23,8 +23,7 @@
 
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-    This is a comment from Andrew :) 
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA 
  */
 
 function swarm_install() {
@@ -108,11 +107,42 @@ function swarm_viewmedica_display($atts = null, $content = null) {
     }
 
     if( $atts != null ) {
-        $a = shortcode_atts( array( 'menuaccess' => '', 'openthis' => '', 'width' => '' ), $atts );
+        $a = shortcode_atts( array( 'menuaccess' => '', 'openthis' => '', 'width' => '', 'audio' => '', 'captions' => '', 'subtitles' => '', 'markup' => '', 'search' => '', 'sections' => '', 'sharing' => '', 'autoplay' => '' ), $atts );
         $openthis = $a['openthis'];
         $menuaccess = $a['menuaccess'];
         $width = $a['width'];
-
+        $audio = $a['audio'];
+        $captions = $a['captions'];
+        $subtitles = $a['subtitles'];
+        $markup = $a['markup'];
+        $search = $a['search'];
+        $sections = $a['sections'];
+        $sharing = $a['sharing'];
+        $autoplay = $a['autoplay'];
+        if ($audio != '') {
+            $param_string .= 'audio='. $audio . '; ';
+        }
+        if ($captions != '') {
+            $param_string .= 'captions='. $captions . '; ';
+        }
+        if ($subtitles != '') {
+            $param_string .= 'subtitles='. $subtitles . '; ';
+        }
+        if ($markup != '') {
+            $param_string .= 'markup='. $markup . '; ';
+        }
+        if ($search != '') {
+            $param_string .= 'search='. $search . '; ';
+        }
+        if ($sections != '') {
+            $param_string .= 'sections='. $sections . '; ';
+        }
+        if ($sharing != '') {
+            $param_string .= 'sharing='. $sharing . '; ';
+        }
+        if ($autoplay != '') {
+            $param_string .= 'autoplay='. $autoplay . '; ';
+        }
         if( $openthis != '' ) {
             $viewmedica_div = "<div id='" . $openthis . "'></div>";
             $openthis_string = 'openthis="' . $openthis . '"; ';
