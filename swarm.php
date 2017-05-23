@@ -107,7 +107,7 @@ function swarm_viewmedica_display($atts = null, $content = null) {
     }
 
     if( $atts != null ) {
-        $a = shortcode_atts( array( 'menuaccess' => '', 'openthis' => '', 'width' => '', 'audio' => '', 'captions' => '', 'subtitles' => '', 'markup' => '', 'search' => '', 'sections' => '', 'social' => '', 'autoplay' => '' ), $atts );
+        $a = shortcode_atts( array( 'menuaccess' => '', 'openthis' => '', 'width' => '', 'audio' => '', 'captions' => '', 'subtitles' => '', 'markup' => '', 'search' => '', 'sections' => '', 'sharing' => '', 'autoplay' => '' ), $atts );
         $openthis = $a['openthis'];
         $menuaccess = $a['menuaccess'];
         $width = $a['width'];
@@ -117,7 +117,7 @@ function swarm_viewmedica_display($atts = null, $content = null) {
         $markup = $a['markup'];
         $search = $a['search'];
         $sections = $a['sections'];
-        $social = $a['social'];
+        $sharing = $a['sharing'];
         $autoplay = $a['autoplay'];
         if ($audio != '') {
             $param_string .= 'audio='. $audio . '; ';
@@ -137,8 +137,8 @@ function swarm_viewmedica_display($atts = null, $content = null) {
         if ($sections != '') {
             $param_string .= 'sections='. $sections . '; ';
         }
-        if ($social != '') {
-            $param_string .= 'social='. $social . '; ';
+        if ($sharing != '') {
+            $param_string .= 'social='. $sharing . '; ';
         }
         if ($autoplay != '') {
             $param_string .= 'autoplay='. $autoplay . '; ';

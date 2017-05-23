@@ -103,9 +103,9 @@ function vm_plugin_init() {
                     <small>Sections button is not visible for the user</small></td>\
                 </tr>\
                 <tr>\
-                    <th><label for="viewmedica-social">Hide Social Button</label></th>\
-                    <td><input type="checkbox" id="viewmedica_social" name="social" value="false" /><br />\
-                    <small>Social button is not visible for the user</small></td>\
+                    <th><label for="viewmedica-sharing">Hide Sharing Button</label></th>\
+                    <td><input type="checkbox" id="viewmedica_sharing" name="Sharing" value="false" /><br />\
+                    <small>sharing button is not visible for the user</small></td>\
                 </tr>\
             </table>\
             <p class="submit">\
@@ -134,7 +134,7 @@ function vm_plugin_init() {
                     'subtitles': '',
                     'markup': '',
                     'sections': '',
-                    'social': ''
+                    'sharing': ''
                 };
                 var shortcode = '[viewmedica';
 
