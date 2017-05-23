@@ -104,8 +104,8 @@ function vm_plugin_init() {
                 </tr>\
                 <tr>\
                     <th><label for="viewmedica-sharing">Hide Sharing Button</label></th>\
-                    <td><input type="checkbox" id="viewmedica_sharing" name="Sharing" value="false" /><br />\
-                    <small>sharing button is not visible for the user</small></td>\
+                    <td><input type="checkbox" id="viewmedica_sharing" name="sharing" value="false" /><br />\
+                    <small>Sharing button is not visible for the user</small></td>\
                 </tr>\
             </table>\
             <p class="submit">\
