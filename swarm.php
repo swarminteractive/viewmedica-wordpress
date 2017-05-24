@@ -50,7 +50,7 @@ function swarm_install() {
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql);
 
-    $rows_affected = $wpdb->insert( $table_name, array('id' => 1, 'vm_id' => '', 'vm_width' => 580, 'vm_secure' => 0, 'vm_fullscreen' => 1, 'vm_brochures' => 1, 'vm_disclaimer' => 1, 'vm_visible' => 1, 'vm_language' => 'en' ) );
+    $rows_affected = $wpdb->insert( $table_name, array('id' => 1, 'vm_id' => '', 'vm_width' => 720, 'vm_secure' => 0, 'vm_fullscreen' => 1, 'vm_brochures' => 1, 'vm_disclaimer' => 1, 'vm_visible' => 1, 'vm_language' => 'en' ) );
 
     add_option('swarm_db_version', '1.0');
 
@@ -86,7 +86,9 @@ function swarm_viewmedica_display($atts = null, $content = null) {
     $visible = $result->vm_visible;
     $language = $result->vm_language;
 
-    if ( $visible == 1 ) {
+    if ( $visible != 1 ) {
+        return '';
+    }
 
     $param_string = '';
 
@@ -123,6 +125,7 @@ function swarm_viewmedica_display($atts = null, $content = null) {
         $sections = $a['sections'];
         $sharing = $a['sharing'];
         $autoplay = $a['autoplay'];
+
         if ($audio != '') {
             $param_string .= 'audio='. $audio . '; ';
         }
@@ -178,8 +181,6 @@ function swarm_viewmedica_display($atts = null, $content = null) {
     }
 
     return $viewmedica_div;
-        
-    }
 }
 
 function swarm_header() {
