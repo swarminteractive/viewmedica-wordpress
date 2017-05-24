@@ -14,6 +14,7 @@
         $brochures = @$_POST['vm_brochures'] == '1' ? 1 : 0;
         $fullscreen = @$_POST['vm_fullscreen'] == '1' ? 1 : 0;
         $disclaimer = @$_POST['vm_disclaimer'] == '1' ? 1 : 0;
+        $visible = @$_POST['vm_visible'] == '1' ? 1 : 0;
 
         $sql = "UPDATE " . $table_name . "
                 SET vm_id = " . $client . ",
@@ -22,6 +23,7 @@
                 vm_brochures = " . $brochures . ",
                 vm_fullscreen = " . $fullscreen . ",
                 vm_disclaimer = " . $disclaimer . ",
+                vm_visible = " . $visible . ", 
                 vm_language = '" . $language . "'
                 WHERE id = 1";
 
@@ -40,6 +42,7 @@
         $brochures = $result->vm_brochures;
         $fullscreen = $result->vm_fullscreen;
         $disclaimer = $result->vm_disclaimer;
+        $visible = $result->vm_visible;
         $language = $result->vm_language;
         $updated = false;
 
@@ -63,7 +66,8 @@
         <input type="hidden" name="swarm_hidden" value="Y">
         <p><?php _e("Client ID: " ); ?><input type="text" name="vm_id" value="<?php echo $client; ?>" size="20"><?php _e(" required" ); ?></p>
 
-        <p><?php _e("Width: " ); ?><input type="text" name="vm_width" value="<?php echo $width; ?>" size="20"><?php _e(" default: 580" ); ?></p>
+        <p><?php _e("Width: " ); ?><input type="text" name="vm_width" value="<?php echo $width; ?>" size="20"><?php _e(" default: 720" ); ?></p>
+        <p><input type="checkbox" name="vm_visible" value="1" <?php if($visible == 1) echo 'checked '; ?>size="20"><?php _e("Display ViewMedica"); ?></p>
         <p><input type="checkbox" name="vm_secure" value="1" <?php if($secure == 1) echo 'checked '; ?>size="20"> <?php _e("Secure Embed" ); ?><?php _e(" (only for https sites)" ); ?></p>
         <p><input type="checkbox" name="vm_brochures" value="1" <?php if($brochures == 1) echo 'checked '; ?>size="20"> <?php _e("Show Brochures" ); ?></p>
         <p><input type="checkbox" name="vm_fullscreen" value="1" <?php if($fullscreen == 1) echo 'checked '; ?>size="20"> <?php _e("Show Fullscreen" ); ?></p>
