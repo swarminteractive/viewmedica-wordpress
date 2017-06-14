@@ -166,7 +166,38 @@
 
 <div class="wrap">
 
+<img src="../wp-content/plugins/viewmedica/vm-logo.png" width="200px" height="auto" style="padding: 10px;" />
+
 <div>
+
+<div class="col-1-3 mobile-col-1-1">
+
+  <div class="content">
+
+<h2>Welcome</h2>
+
+    <p>Thank you for installing ViewMedica! If this is your first time using this plugin, watch the video below get started.</p>
+    <video width="100%" height="auto" controls>
+        <source src="../wp-content/plugins/viewmedica/sample.mov" type="video/mp4">
+    </video>
+
+    <p>Before you start tweaking ViewMedica so it is the perfect fit for your website, let's go over the best features of the plugin.</p>
+
+    <h4><strong>Page Generator</strong></h4>
+
+    <p>This is the quickest way to get ViewMedica working on your site. Our page generator instantly makes a page featuring every ViewMedica video you have chosen with your subscription. You can choose to feature your selections in list form, or with a thumbnail and description!</p>
+
+    <h4><strong>Global Options</strong></h4>
+
+    <p>These settings change the default behavior of ViewMedica across your entire site. Some common settings are player width, fullscreen mode, and language.</p>
+
+    <h4><strong>Inline Options</strong></h4>
+
+    <p>This gives you more granular control of each ViewMedica embed on your site. On one page you may want to hide the ability, or disable menu access. Checkout the shortcode generator to see the options available, or head to a post and use our inline tool.</p>
+
+  </div>
+
+</div>
 
 <div class="col-1-3 mobile-col-1-1">
 
