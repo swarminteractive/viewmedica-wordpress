@@ -3,11 +3,35 @@
     global $wpdb;
     $table_name = $wpdb->prefix . 'viewmedica';
 
-    if($_POST['swarm_hidden'] == 'Y') {
-
+    if ($_POST['swarm_hidden'] == 'C') {
+     
         swarm_nag_ignore(true);
 
         $client = $_POST['vm_id'];
+
+        $sql = "UPDATE " . $table_name . "
+                SET vm_id = " . $client . "
+                WHERE id = 1";
+
+        $wpdb->query($sql);
+        $updated = true; 
+
+        $sql = "SELECT * FROM " . $table_name . "
+                WHERE id = 1";
+        $result = $wpdb->get_results($sql, 'OBJECT');
+        $result = $result[0];
+        $width = $result->vm_width;
+        $secure = $result->vm_secure;
+        $brochures = $result->vm_brochures;
+        $fullscreen = $result->vm_fullscreen;
+        $disclaimer = $result->vm_disclaimer;
+        $visible = $result->vm_visible;
+        $language = $result->vm_language;
+
+    } else if($_POST['swarm_hidden'] == 'Y') {
+
+        swarm_nag_ignore(true);
+
         $width = $_POST['vm_width'];
         $language = $_POST['vm_language'];
         $secure = @$_POST['vm_secure'] == '1' ? 1 : 0;
@@ -17,8 +41,7 @@
         $visible = @$_POST['vm_visible'] == '1' ? 1 : 0;
 
         $sql = "UPDATE " . $table_name . "
-                SET vm_id = " . $client . ",
-                vm_width = " . $width . ",
+                SET vm_width = " . $width . ",
                 vm_secure = " . $secure . ",
                 vm_brochures = " . $brochures . ",
                 vm_fullscreen = " . $fullscreen . ",
@@ -29,6 +52,20 @@
 
         $wpdb->query($sql);
         $updated = true;
+
+
+        $sql = "SELECT * FROM " . $table_name . "
+        WHERE id = 1";
+        $result = $wpdb->get_results($sql, 'OBJECT');
+        $result = $result[0];
+        $client = $result->vm_id;
+        $width = $result->vm_width;
+        $secure = $result->vm_secure;
+        $brochures = $result->vm_brochures;
+        $fullscreen = $result->vm_fullscreen;
+        $disclaimer = $result->vm_disclaimer;
+        $visible = $result->vm_visible;
+        $language = $result->vm_language;
 
     } else if($_POST['swarm_hidden'] == 'P') {
 
@@ -172,7 +209,29 @@
 
 <div class="col-1-3 mobile-col-1-1">
 
-  <div class="content">
+<div class="content" style="margin-bottom: 20px;">
+
+<h2>Get Started</h2>
+
+<p>Set up your Client ID to begin using ViewMedica.</p>
+
+<form name="swarm_admin" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
+
+    <input type="hidden" name="swarm_hidden" value="C">
+
+    <table class="form-table">
+    <tr>
+        <th scope="row"><label for="vm_id"><?php _e('Client ID') ?></label></th>
+        <td><input id="vm_id" type="text" name="vm_id" value="<?php echo $client; ?>" size="14" aria-describedby="client-id-description"><p class="description" id="client-id-description">required</p></td>
+    </tr>
+    </table>
+<input type="submit" name="Submit" value="<?php _e('Set Client ID', 'swarm_trdom' ) ?>" class="button button-primary" style="margin-top: 20px;" />
+</form>
+
+</div>
+
+
+  <div id="welcome" class="content" style="margin-bottom: 20px;">
 
 <h2>Welcome</h2>
 
@@ -199,7 +258,7 @@
 
 <div class="col-1-3 mobile-col-1-1">
 
-<div class="content" style="margin-bottom: 20px;">
+<div id="pageGenerator" class="content" style="margin-bottom: 20px;">
   <h2><?php _e('Page Generator') ?></h2>
   <form name="swarm_admin" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
   <input type="hidden" name="swarm_hidden" value="P">
@@ -243,7 +302,7 @@
   </form>
 </div>
 
-<div class="content">
+<div id="globalOptions" class="content">
 
     <h2><?php _e('Global Options') ?></h2>
 
@@ -252,10 +311,7 @@
     <input type="hidden" name="swarm_hidden" value="Y">
 
     <table class="form-table">
-    <tr>
-        <th scope="row"><label for="vm_id"><?php _e('Client ID') ?></label></th>
-        <td><input type="text" name="vm_id" value="<?php echo $client; ?>" size="14" aria-describedby="client-id-description"><p class="description" id="client-id-description">required</p></td>
-    </tr>
+
     <tr>
         <th scope="row"><label for="vm_width"><?php _e('Width') ?></label></th>
         <td><input type="text" name="vm_width" value="<?php echo $width; ?>" size="14" aria-describedby="width-description"><p class="description" id="width-description">720px by default</p>
@@ -323,7 +379,7 @@
 
 <div class="col-1-3 mobile-col-1-1">
 
-  <div class="content" style="background-color: lightgray;">
+  <div id="inlineOptions" class="content" style="background-color: lightgray;">
 
     <h2><?php _e('Shortcode Generator') ?></h2>
 
@@ -575,6 +631,16 @@
               url: 'https://swarminteractive.com/vm/index/client_json/' + vm_id ,
               success: function(data) {
                 build(data);
+              },
+              error: function() {
+                var welcome = document.getElementById('welcome');
+                var pageGenerator = document.getElementById('pageGenerator');
+                var globalOptions = document.getElementById('globalOptions');
+                var inlineOptions = document.getElementById('inlineOptions');
+                welcome.style.display = 'none';
+                pageGenerator.style.display = 'none';
+                globalOptions.style.display = 'none';
+                inlineOptions.style.display = 'none';
               }
             });
   }
@@ -617,5 +683,7 @@
   window.onload = fetch();
 
   window.onload = pageOptions();
+
+  window.onload = checkActivation();
 
 </script>
