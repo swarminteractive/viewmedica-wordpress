@@ -49,36 +49,92 @@
     }
 ?>
 
+<link rel="stylesheet" type="text/css" href="../wp-content/plugins/viewmedica/viewmedica.css">
+
 <div class="wrap">
 
-<?php if($updated) {
+<div>
 
-    echo '<div id="message" class="updated"><p>Your preferences were successfully updated</p></div>';
+<div class="col-1-3 mobile-col-1-1">
 
-} else {
+<div class="content">
 
+    <h2><?php _e('Global Options') ?></h2>
 
-} ?>
-
-<?php echo "<h2>" . __( 'ViewMedica Options', 'swarm_trdom' ) . "</h2>"; ?>
-    <p>Please insert your ViewMedica Client ID to begin using this plugin.</p>
     <form name="swarm_admin" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
-        <input type="hidden" name="swarm_hidden" value="Y">
-        <p><?php _e("Client ID: " ); ?><input type="text" name="vm_id" value="<?php echo $client; ?>" size="20"><?php _e(" required" ); ?></p>
 
-        <p><?php _e("Width: " ); ?><input type="text" name="vm_width" value="<?php echo $width; ?>" size="20"><?php _e(" default: 720" ); ?></p>
-        <p><input type="checkbox" name="vm_visible" value="1" <?php if($visible == 1) echo 'checked '; ?>size="20"><?php _e("Display ViewMedica"); ?></p>
-        <p><input type="checkbox" name="vm_secure" value="1" <?php if($secure == 1) echo 'checked '; ?>size="20"> <?php _e("Secure Embed" ); ?><?php _e(" (only for https sites)" ); ?></p>
-        <p><input type="checkbox" name="vm_brochures" value="1" <?php if($brochures == 1) echo 'checked '; ?>size="20"> <?php _e("Show Brochures" ); ?></p>
-        <p><input type="checkbox" name="vm_fullscreen" value="1" <?php if($fullscreen == 1) echo 'checked '; ?>size="20"> <?php _e("Show Fullscreen" ); ?></p>
-        <p><input type="checkbox" name="vm_disclaimer" value="1" <?php if($disclaimer == 1) echo 'checked '; ?>size="20"> <?php _e("Show Disclaimer" ); ?></p>
-        <p><select name="vm_language">
-            <option value="en"<?php if($language=='en') echo ' selected'; ?>>English</option>
-            <option value="es"<?php if($language=='es') echo ' selected'; ?>>Spanish</option>
-            <option value="de"<?php if($language=='de') echo ' selected'; ?>>German</option>
-        </select></p>
-        <p class="submit">
-        <input type="submit" name="Submit" value="<?php _e('Update Options', 'swarm_trdom' ) ?>" />
-        </p>
+    <input type="hidden" name="swarm_hidden" value="Y">
+
+    <table class="form-table">
+    <tr>
+        <th scope="row"><label for="vm_id"><?php _e('Client ID') ?></label></th>
+        <td><input type="text" name="vm_id" value="<?php echo $client; ?>" size="14" aria-describedby="client-id-description"><p class="description" id="client-id-description">required</p></td>
+    </tr>
+    <tr>
+        <th scope="row"><label for="vm_width"><?php _e('Width') ?></label></th>
+        <td><input type="text" name="vm_width" value="<?php echo $width; ?>" size="14" aria-describedby="width-description"><p class="description" id="width-description">720px by default</p>
+    </tr>
+
+    <tr>
+    <th scope="row"><label for="vm_visible"><?php _e('ViewMedica') ?></label></th>
+    <td>
+        <select name="vm_visible">
+        <option value="1" <?php if($visible == 1) echo 'selected'; ?>><?php _e('Show') ?></option>
+          <option value="0" <?php if($visible == 0) echo 'selected'; ?>><?php _e('Hide') ?></option>
+        </select>
+    </td>
+    </tr>
+    <tr>
+    <th scope="row"><label for="vm_secure"><?php _e('Secure') ?></label></th>
+    <td><select name="vm_secure">
+          <option value="1" <?php if($secure == 1) echo 'selected'; ?>><?php _e('On') ?></option>
+          <option value="0" <?php if($secure == 0) echo 'selected'; ?>><?php _e('Off') ?></option>
+        </select>
+    </tr>
+    <tr>
+    <th scope="row"><label for="vm_brochures"><?php _e('Brochures') ?></label></th>
+    <td><select name="vm_brochures">
+          <option value="1" <?php if($brochures == 1) echo 'selected'; ?>><?php _e('Show') ?></option>
+          <option value="0" <?php if($brochures == 0) echo 'selected'; ?>><?php _e('Hide') ?></option>
+        </select>
+    </td>
+    </tr>
+    <tr>
+    <th scope="row"><label for="vm_fullscreen"><?php _e('Fullscreen') ?></label></th>
+    <td><select name="vm_fullscreen">
+          <option value="1" <?php if($fullscreen == 1) echo 'selected'; ?>><?php _e('Show') ?></option>
+          <option value="0" <?php if($fullscreen == 0) echo 'selected'; ?>><?php _e('Hide') ?></option>
+        </select>
+    </td>
+    </tr>
+    <tr>
+    <th scope="row"><label for="vm_disclaimer"><?php _e('Disclaimer') ?></label></th>
+    <td>
+       <select name="vm_disclaimer">
+          <option value="1" <?php if($disclaimer == 1) echo 'selected'; ?>><?php _e('Show') ?></option>
+          <option value="0" <?php if($disclaimer == 0) echo 'selected'; ?>><?php _e('Hide') ?></option>
+        </select>
+    </td>
+    </tr>
+    <tr>
+    <th scope="row"><label for="vm_language"><?php _e('Language') ?></label></th>
+    <td><select name="vm_language">
+          <option value="en" <?php if($language == 'en') echo 'selected'; ?>><?php _e('English') ?></option>
+          <option value="es" <?php if($language == 'es') echo 'selected'; ?>><?php _e('Spanish') ?></option>
+          <option value="de" <?php if($language == 'de') echo 'selected'; ?>><?php _e('German') ?></option>
+        </select>
+    </td>
+    </tr>
+    </table>
+
+    <input type="submit" name="Submit" value="<?php _e('Update Options', 'swarm_trdom' ) ?>" class="button button-primary" style="margin-top: 20px;" />
+
     </form>
+
+  </div>
+
+</div>
+
+</div>
+
 </div>
