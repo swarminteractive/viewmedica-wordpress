@@ -204,6 +204,7 @@
   <form name="swarm_admin" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
   <input type="hidden" name="swarm_hidden" value="P">
   <input type="hidden" name="swarm_id" value="<?php echo $client; ?>">
+  <p>This will create a page based on your current ViewMedica selections. If you update your selections in your <a href="http://viewmedica.com/" target="_blank">ViewMedica.com</a> account, you will need to regenerate the page.</p>
   <table class="form-table">
     <tr>
       <th scope="row"><label for="vm_page">Page Name</label></td>
