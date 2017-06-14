@@ -30,6 +30,119 @@
         $wpdb->query($sql);
         $updated = true;
 
+    } else if($_POST['swarm_hidden'] == 'P') {
+
+        $json_string = 'https://swarminteractive.com/vm/api/video/?key=e5751ac1a513792111d47b68872b2712a9017dba&client='.$_POST['swarm_id'].'&description=true';
+        $jsondata = file_get_contents($json_string);
+        $data = json_decode($jsondata);
+
+        $content = "[viewmedica]<br /><hr />\r\n\r\n";
+
+        $size = $_POST['vm_size'];
+
+        $float = $_POST['vm_thumbnail'];
+
+        $format = $_POST['vm_format'];
+
+        $itemDiv = "<div class=\"vm-item\" style=\"display: inline-block;\">\r\n\r\n";
+
+        $groupDiv = "<div class=\"vm-group\">\r\n\r\n";
+
+        $collectionDiv = "<div class=\"vm-collection\">\r\n\r\n";
+
+        $closeDiv = "</div>\r\n\r\n";
+        
+        $closeItemDiv = "</div>\r\n\r\n";
+      
+        if ($format == "list") {
+          $itemList = "<ul class=\"vm-list\">\r\n\r\n";
+          $closeList = "</ul>\r\n\r\n";
+          $itemDiv = "";
+          $closeItemDiv = "";
+        } else {
+          $itemList = "";
+          $closeList = "";
+        }
+
+        function collectionTitle($label) {
+          return "<h2>".$label."</h2>\r\n\r\n";
+        }
+
+        function groupTitle($label) {
+          return "<h4>".$label."</h4>\r\n\r\n";
+        }
+
+        function item($key, $label, $file, $size, $float, $description, $format) {
+          $itemTitle = itemTitle($key, $label, $format);
+          $itemFile = itemFile($key, $label, $file, $size, $float);
+          $itemDescription = itemDescription($description);
+          if ($format == "div") {
+            return $itemTitle.$itemFile.$itemDescription;
+          } else {
+            return $itemTitle;
+          } 
+        }
+
+        function itemTitle($key, $label, $format) {
+          if ($format == "div") {
+            return "<a href=\"#\" title=\"".$label."\" class=\"vm-link\" data-video=\"".$key."\"><h3>".$label."</h3></a>\r\n\r\n";
+          } else {
+            return "<a href=\"#\" title=\"".$label."\"><li class=\"vm-link vm-list-item\" data-video=\"".$key."\">".$label."</li></a>\r\n\r\n";
+          }
+        }
+
+        function itemFile($key, $label, $file, $size, $float) {
+          $img = "class=\"vm-link vm-image\" data-video=\"".$key."\" src=\"http://www.swarminteractive.com/images/thumbs/".$file."_".$size.".jpg\" alt=\"".$label."\"";
+          if ($float == "left") {
+              $style = "style=\"padding: 0px 15px 0px 0px; float: left;\"";
+          } else if ($float == "right") {
+              $style = "style=\"padding: 0px 0px 0px 15px; float: right;\"";
+          } else {
+              return "";
+          }
+          return "<a href=\"#\"><img ".$img.$style.$close." /></a>\r\n\r\n";
+        }
+
+        function itemDescription($description) {
+          return "<p>".$description."</p>\r\n\r\n";
+        }
+
+        foreach($data->libraries as $library) {
+          foreach($library->collections as $collection) {
+            $content .= $collectionDiv.collectionTitle($collection->label);
+            foreach($collection->groups as $group) {
+              $content .= $groupDiv.groupTitle($group->label).$itemList;
+              foreach($group->items as $itemKey => $item) {
+                $content .= $itemDiv.item($itemKey, $item->label, $item->file, $size, $float, $item->description->en, $format).$closeItemDiv;
+              }
+              $content .= $closeList.$closeDiv;
+            }
+            $content .= "</div>\r\n\r\n";
+          }
+        }
+
+        $post = array(
+          'post_title' => $_POST['vm_page'],
+          'post_content' => $content,
+          'post_type' => 'page'
+        );
+
+        wp_insert_post($post);
+
+        $sql = "SELECT * FROM " . $table_name . "
+                WHERE id = 1";
+        $result = $wpdb->get_results($sql, 'OBJECT');
+        $result = $result[0];
+        $client = $result->vm_id;
+        $width = $result->vm_width;
+        $secure = $result->vm_secure;
+        $brochures = $result->vm_brochures;
+        $fullscreen = $result->vm_fullscreen;
+        $disclaimer = $result->vm_disclaimer;
+        $visible = $result->vm_visible;
+        $language = $result->vm_language;
+        $updated = false;
+
     } else {
 
         $sql = "SELECT * FROM " . $table_name . "
@@ -56,6 +169,49 @@
 <div>
 
 <div class="col-1-3 mobile-col-1-1">
+
+<div class="content" style="margin-bottom: 20px;">
+  <h2><?php _e('Page Generator') ?></h2>
+  <form name="swarm_admin" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
+  <input type="hidden" name="swarm_hidden" value="P">
+  <input type="hidden" name="swarm_id" value="<?php echo $client; ?>">
+  <table class="form-table">
+    <tr>
+      <th scope="row"><label for="vm_page">Page Name</label></td>
+      <td><input type="text" name="vm_page" /></td>
+    </tr>
+    <tr>
+       <th scope="row"><label for="vm_format">Format</label></th>
+       <td>
+       <select name="vm_format" onchange="pageOptions()">
+            <option value="div">Div</option>
+            <option value="list">List</option>
+       </select>
+       </td>
+    </tr>
+    <tr id="vm_thumbnail">
+        <th scope="row"><label for="vm_thumbnail">Image</label></th>
+        <td>
+        <select name="vm_thumbnail" onchange="imageOptions()">
+          <option value="left">Float Left</option>
+          <option value="right">Float Right</option>
+          <option value="hide">Hide</option>
+        </select>
+        </td>
+    </tr>
+    <tr id="vm_size">
+      <th scope="row"><label for="vm_size">Image Size</label></th>
+      <td>
+      <select name="vm_size">
+        <option value="120">120px</option>
+        <option value="300">300px</option>
+      </select>
+      </td>
+    </tr>
+  </table>
+  <input class="button button-primary" style="margin-top: 20px;" type="submit" name="Submit" />
+  </form>
+</div>
 
 <div class="content">
 

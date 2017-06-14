@@ -70,6 +70,9 @@ function swarm_admin_actions() {
 
 function swarm_viewmedica_display($atts = null, $content = null) {
 
+    wp_register_script('vm_event_listener', plugins_url( 'vm_event_listener.js' , __FILE__ ), array(), '1.0.0', true );
+    wp_enqueue_script( 'vm_event_listener' );
+
     global $wpdb;
     $table_name = $wpdb->prefix . 'viewmedica';
 
