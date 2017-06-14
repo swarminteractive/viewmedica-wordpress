@@ -176,24 +176,22 @@
 
 <h2>Welcome</h2>
 
-    <p>Thank you for installing ViewMedica! If this is your first time using this plugin, watch the video below get started.</p>
+    <p>Thank you for installing ViewMedica! If this is your first time using this plugin, watch the video below to get started. And, read about some of the plugin’s helpful features below.</p>
     <video width="100%" height="auto" controls>
         <source src="../wp-content/plugins/viewmedica/sample.mov" type="video/mp4">
     </video>
 
-    <p>Before you start tweaking ViewMedica so it is the perfect fit for your website, let's go over the best features of the plugin.</p>
+    <h4><strong>Create a page with links to your ViewMedica content</strong></h4>
 
-    <h4><strong>Page Generator</strong></h4>
+    <p>Use the plugin’s Page Generator to instantly make a Web page that features all of your ViewMedica videos. You can choose to show your video links in list form, or with a thumbnail image and description.</p>
 
-    <p>This is the quickest way to get ViewMedica working on your site. Our page generator instantly makes a page featuring every ViewMedica video you have chosen with your subscription. You can choose to feature your selections in list form, or with a thumbnail and description!</p>
+    <h4><strong>Change ViewMedica player settings globally</strong></h4>
 
-    <h4><strong>Global Options</strong></h4>
+    <p>The Global Options settings change the behavior of ViewMedica across your entire site. Set things like your player width, default language and other features.</p>
 
-    <p>These settings change the default behavior of ViewMedica across your entire site. Some common settings are player width, fullscreen mode, and language.</p>
+    <h4><strong>Change player settings for a single embed</strong></h4>
 
-    <h4><strong>Inline Options</strong></h4>
-
-    <p>This gives you more granular control of each ViewMedica embed on your site. On one page you may want to hide the ability, or disable menu access. Checkout the shortcode generator to see the options available, or head to a post and use our inline tool.</p>
+    <p>The Inline Options settings give you control of individual ViewMedica embeds on your site. For example, you may want to disable menu access on a page so your users only see one specific video. Checkout the Shortcode Generator to see the options available, or head to a post and use our inline tool.</p>
 
   </div>
 
@@ -328,7 +326,7 @@
 
     <h2><?php _e('Shortcode Generator') ?></h2>
 
-<p>As you change various options the shortcode below will automatically update. When you have selected your desired optoins, copy &amp; paste the code into your post.</p>
+<p>As you change options below, the embed shortcode will automatically update. When your options are set, copy &amp; paste the shortcode into your post.</p>
 
 <hr />
 
