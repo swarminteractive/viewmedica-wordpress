@@ -124,6 +124,14 @@
   margin-bottom: 20px;
 }
 
+.vm_title {
+  margin-top: 0px;
+}
+
+.disabled {
+  opacity: 0.5;
+}
+
 /* Pushing blocks */
 
 .push-2-3, .push-8-12 {

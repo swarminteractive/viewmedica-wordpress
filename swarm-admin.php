@@ -211,7 +211,7 @@
 
 <div id="vm_id_div" class="content">
 
-<h2>Get Started</h2>
+<h2 class="vm_title">Get Started</h2>
 
 <p>Please enter your Client ID to begin using this plugin. You can find your Client ID by logging into your account at <a href="https://www.viewmedica.com" target="_blank">ViewMedica.com</a></p>
 
@@ -235,7 +235,7 @@
 
   <div id="welcome" class="content">
 
-<h2>Welcome</h2>
+<h2 class="vm_title">Welcome</h2>
 
     <p>Thank you for installing ViewMedica! If this is your first time using this plugin, watch the video below to get started. And, read about some of the plugin’s helpful features below.</p>
     <video width="100%" height="auto" controls>
@@ -259,54 +259,9 @@
 </div>
 
 <div class="col-1-3 mobile-col-1-1">
+<div id="globalOptions" class="content disabled">
 
-<div id="pageGenerator" class="content">
-  <h2><?php _e('Page Generator') ?></h2>
-  <form name="swarm_admin" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
-  <input type="hidden" name="swarm_hidden" value="P">
-  <input type="hidden" name="swarm_id" value="<?php echo $client; ?>">
-  <p>This will create a page based on your current ViewMedica selections. If you update your selections in your <a href="http://viewmedica.com/" target="_blank">ViewMedica.com</a> account, you will need to regenerate the page.</p>
-  <table class="form-table">
-    <tr>
-      <th scope="row"><label for="vm_page">Page Name</label></td>
-      <td><input type="text" name="vm_page" /></td>
-    </tr>
-    <tr>
-       <th scope="row"><label for="vm_format">Format</label></th>
-       <td>
-       <select name="vm_format" onchange="pageOptions()">
-            <option value="div">Div</option>
-            <option value="list">List</option>
-       </select>
-       </td>
-    </tr>
-    <tr id="vm_thumbnail">
-        <th scope="row"><label for="vm_thumbnail">Image</label></th>
-        <td>
-        <select name="vm_thumbnail" onchange="imageOptions()">
-          <option value="left">Float Left</option>
-          <option value="right">Float Right</option>
-          <option value="hide">Hide</option>
-        </select>
-        </td>
-    </tr>
-    <tr id="vm_size">
-      <th scope="row"><label for="vm_size">Image Size</label></th>
-      <td>
-      <select name="vm_size">
-        <option value="120">120px</option>
-        <option value="300">300px</option>
-      </select>
-      </td>
-    </tr>
-  </table>
-  <input id="generatePageButton" class="button button-primary" style="margin-top: 20px;" type="submit" name="Submit" value="Generate Page" />
-  </form>
-</div>
-
-<div id="globalOptions" class="content">
-
-    <h2><?php _e('Global Options') ?></h2>
+    <h2 class="vm_title"><?php _e('Global Options') ?></h2>
 
     <form name="swarm_admin" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
 
@@ -377,13 +332,59 @@
 
   </div>
 
+<div id="pageGenerator" class="content disabled">
+  <h2 class="vm_title"><?php _e('Page Generator') ?></h2>
+  <form name="swarm_admin" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
+  <input type="hidden" name="swarm_hidden" value="P">
+  <input type="hidden" name="swarm_id" value="<?php echo $client; ?>">
+  <p>This will create a page based on your current ViewMedica selections. If you update your selections in your <a href="http://viewmedica.com/" target="_blank">ViewMedica.com</a> account, you will need to regenerate the page.</p>
+  <table class="form-table">
+    <tr>
+      <th scope="row"><label for="vm_page">Page Name</label></td>
+      <td><input type="text" name="vm_page" /></td>
+    </tr>
+    <tr>
+       <th scope="row"><label for="vm_format">Format</label></th>
+       <td>
+       <select name="vm_format" onchange="pageOptions()">
+            <option value="div">Div</option>
+            <option value="list">List</option>
+       </select>
+       </td>
+    </tr>
+    <tr id="vm_thumbnail">
+        <th scope="row"><label for="vm_thumbnail">Image</label></th>
+        <td>
+        <select name="vm_thumbnail" onchange="imageOptions()">
+          <option value="left">Float Left</option>
+          <option value="right">Float Right</option>
+          <option value="hide">Hide</option>
+        </select>
+        </td>
+    </tr>
+    <tr id="vm_size">
+      <th scope="row"><label for="vm_size">Image Size</label></th>
+      <td>
+      <select name="vm_size">
+        <option value="120">120px</option>
+        <option value="300">300px</option>
+      </select>
+      </td>
+    </tr>
+  </table>
+  <input id="generatePageButton" class="button button-primary" style="margin-top: 20px;" type="submit" name="Submit" value="Generate Page" />
+  </form>
+</div>
+
+
+
 </div>
 
 <div class="col-1-3 mobile-col-1-1">
 
-  <div id="inlineOptions" class="content" style="background-color: lightgray;">
+  <div id="inlineOptions" class="content disabled" style="background-color: lightgray;">
 
-    <h2><?php _e('Shortcode Generator') ?></h2>
+    <h2 class="vm_title"><?php _e('Shortcode Generator') ?></h2>
 
 <p>As you change options below, the embed shortcode will automatically update. When your options are set, copy &amp; paste the shortcode into your post.</p>
 
@@ -635,12 +636,22 @@
                 var client_id_description = document.getElementById('client-id-description');
                 client_id_description.style.color = "#6adc6a";
                 client_id_description.innerHTML = "valid Client ID";
+                var globalOptions = document.getElementById('globalOptions');
+                var pageGenerator = document.getElementById('pageGenerator');
+                var shortcodeGenerator = document.getElementById('inlineOptions');
+                globalOptions.classList.remove('disabled');
+                pageGenerator.classList.remove('disabled');
+                shortcodeGenerator.classList.remove('disabled');
                 build(data);
               },
               error: function() {
                 var client_id_description = document.getElementById('client-id-description');
                 client_id_description.style.color = "red";
-                client_id_description.innerHTML = "invalid Client ID";
+                if (vm_id == "") {
+                    client_id_description.innerHTML = "required";
+                } else {
+                    client_id_description.innerHTML = "invalid Client ID";
+                }
                 var generatePageButton = document.getElementById('generatePageButton');
                 var updateOptionsButton = document.getElementById('updateOptionsButton');
                 var shortcodeButton = document.getElementById('shortcodeButton');
