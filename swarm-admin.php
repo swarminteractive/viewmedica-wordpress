@@ -209,11 +209,13 @@
 
 <div class="col-1-3 mobile-col-1-1">
 
-<div class="content" style="margin-bottom: 20px;">
+<div id="vm_id_div" class="content">
 
 <h2>Get Started</h2>
 
-<p>Set up your Client ID to begin using ViewMedica.</p>
+<p>Please enter your Client ID to begin using this plugin. You can find your Client ID by logging into your account at <a href="https://www.viewmedica.com" target="_blank">ViewMedica.com</a></p>
+
+<p id="vm_id_error" style="color: red;"></p>
 
 <form name="swarm_admin" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
 
@@ -222,7 +224,7 @@
     <table class="form-table">
     <tr>
         <th scope="row"><label for="vm_id"><?php _e('Client ID') ?></label></th>
-        <td><input id="vm_id" type="text" name="vm_id" value="<?php echo $client; ?>" size="14" aria-describedby="client-id-description"><p class="description" id="client-id-description">required</p></td>
+        <td><input id="vm_id" type="text" name="vm_id" value="<?php echo $client; ?>" size="14" aria-describedby="client-id-description"><p class="description" id="client-id-description">verifying...</p></td>
     </tr>
     </table>
 <input type="submit" name="Submit" value="<?php _e('Set Client ID', 'swarm_trdom' ) ?>" class="button button-primary" style="margin-top: 20px;" />
@@ -231,7 +233,7 @@
 </div>
 
 
-  <div id="welcome" class="content" style="margin-bottom: 20px;">
+  <div id="welcome" class="content">
 
 <h2>Welcome</h2>
 
@@ -258,7 +260,7 @@
 
 <div class="col-1-3 mobile-col-1-1">
 
-<div id="pageGenerator" class="content" style="margin-bottom: 20px;">
+<div id="pageGenerator" class="content">
   <h2><?php _e('Page Generator') ?></h2>
   <form name="swarm_admin" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
   <input type="hidden" name="swarm_hidden" value="P">
@@ -298,7 +300,7 @@
       </td>
     </tr>
   </table>
-  <input class="button button-primary" style="margin-top: 20px;" type="submit" name="Submit" />
+  <input id="generatePageButton" class="button button-primary" style="margin-top: 20px;" type="submit" name="Submit" value="Generate Page" />
   </form>
 </div>
 
@@ -369,7 +371,7 @@
     </tr>
     </table>
 
-    <input type="submit" name="Submit" value="<?php _e('Update Options', 'swarm_trdom' ) ?>" class="button button-primary" style="margin-top: 20px;" />
+    <input id="updateOptionsButton" type="submit" name="Submit" value="<?php _e('Update Options', 'swarm_trdom' ) ?>" class="button button-primary" style="margin-top: 20px;" />
 
     </form>
 
@@ -481,7 +483,7 @@
       </table>
 </form>
 
-<button class="button button-primary" style="margin-top: 20px;" onclick="resetForm()">Reset</button>
+<button id="shortcodeButton" class="button button-primary" style="margin-top: 20px;" onclick="resetForm()">Reset</button>
 
 </div>
 
@@ -630,17 +632,21 @@
             dataType: "json",
               url: 'https://swarminteractive.com/vm/index/client_json/' + vm_id ,
               success: function(data) {
+                var client_id_description = document.getElementById('client-id-description');
+                client_id_description.style.color = "#6adc6a";
+                client_id_description.innerHTML = "valid Client ID";
                 build(data);
               },
               error: function() {
-                var welcome = document.getElementById('welcome');
-                var pageGenerator = document.getElementById('pageGenerator');
-                var globalOptions = document.getElementById('globalOptions');
-                var inlineOptions = document.getElementById('inlineOptions');
-                welcome.style.display = 'none';
-                pageGenerator.style.display = 'none';
-                globalOptions.style.display = 'none';
-                inlineOptions.style.display = 'none';
+                var client_id_description = document.getElementById('client-id-description');
+                client_id_description.style.color = "red";
+                client_id_description.innerHTML = "invalid Client ID";
+                var generatePageButton = document.getElementById('generatePageButton');
+                var updateOptionsButton = document.getElementById('updateOptionsButton');
+                var shortcodeButton = document.getElementById('shortcodeButton');
+                generatePageButton.disabled = true;
+                updateOptionsButton.disabled = true;
+                shortcodeButton.disabled = true;
               }
             });
   }
@@ -683,7 +689,5 @@
   window.onload = fetch();
 
   window.onload = pageOptions();
-
-  window.onload = checkActivation();
 
 </script>
