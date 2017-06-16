@@ -396,7 +396,7 @@
 
 <form id="shortcodeGenerator" name="shortcodeGenerator">
             <h4 style="font-size: 14px; font-weight: 600;">Location</h4>
-            <select id="vm_location" name="vm_location" onchange="generateShortCode();updateCode();" style="width: 98%">
+            <select id="vm_location" name="vm_location" onchange="updateCode();generateShortCode();" style="width: 98%">
             </select>
  <table class="form-table">
 <tbody>
