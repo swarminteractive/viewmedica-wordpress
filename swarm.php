@@ -179,7 +179,7 @@ function swarm_viewmedica_display($atts = null, $content = null) {
 
         $viewmedica_div = "<div id='vm'></div>";
 
-        $viewmedica_div .= "<script type='text/javascript'>client=\"" . $client . "\"; width=\"" . $global_width . "\"; vm_open();</script>\n<!-- ViewMedica Embed End -->";
+        $viewmedica_div .= "<script type='text/javascript'>client=\"" . $client . "\"; width=\"" . $global_width . "\"; " . $param_string  . "vm_open();</script>\n<!-- ViewMedica Embed End -->";
 
     }
 
