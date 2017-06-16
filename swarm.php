@@ -112,7 +112,7 @@ function swarm_viewmedica_display($atts = null, $content = null) {
     }
 
     if( $language != 'en' ) {
-        $param_string .= 'lang="'. $lang . '"; ';
+        $param_string .= 'lang="'. $language . '"; ';
     }
 
     if( $atts != null ) {
