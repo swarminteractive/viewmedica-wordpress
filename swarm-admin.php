@@ -232,15 +232,15 @@
 
 </div>
 
-
-  <div id="welcome" class="content">
+<div id="welcome" class="content">
 
 <h2 class="vm_title">Welcome</h2>
 
     <p>Thank you for installing ViewMedica! If this is your first time using this plugin, watch the video below to get started. And, read about some of the plugin’s helpful features below.</p>
-    <video width="100%" height="auto" controls>
-        <source src="../wp-content/plugins/viewmedica/sample.mov" type="video/mp4">
-    </video>
+    
+    <div class="videoWrapper">
+        <iframe width="100%" height="300px" src="http://www.youtube.com/embed/jJB6SfZBe60?rel=0&hd=1&showinfo=0" frameborder="0" allowfullscreen></iframe>
+    </div>
 
     <h4><strong>Create a page with links to your ViewMedica content</strong></h4>
 
@@ -259,6 +259,7 @@
 </div>
 
 <div class="col-1-3 mobile-col-1-1">
+
 <div id="globalOptions" class="content disabled">
 
     <h2 class="vm_title"><?php _e('Global Options') ?></h2>
@@ -398,7 +399,7 @@
             <h4 style="font-size: 14px; font-weight: 600;">Location</h4>
             <select id="vm_location" name="vm_location" onchange="updateCode();generateShortCode();" style="width: 98%">
             </select>
- <table class="form-table">
+<table class="form-table">
 <tbody>
 					<tr>
 						<th><label for="viewmedica-openthis">Code</label></th>
@@ -439,8 +440,8 @@
 						<th><label for="viewmedica-subtitles">Subtitles</label></th>
             <td>
                 <select name="vm_subtitles" onchange="generateShortCode()">
-                   <option value="1"><?php _e('On') ?></option>
                    <option value="0"><?php _e('Off') ?></option>
+                   <option value="1"><?php _e('On') ?></option>
                 </select>
             </td>
           </tr>
@@ -480,8 +481,8 @@
                 </select>
             </td>
 					</tr>
-				</tbody>
-      </table>
+</tbody>
+</table>
 </form>
 
 <button id="shortcodeButton" class="button button-primary" style="margin-top: 20px;" onclick="resetForm()">Reset</button>
@@ -577,8 +578,8 @@
     var vm_subtitles_e = document.getElementsByName('vm_subtitles')[0];
     var vm_subtitles_v = vm_subtitles_e.options[vm_subtitles_e.selectedIndex].value;
     var vm_subtitles = '';
-    if (vm_subtitles_v == 0) {
-       vm_subtitles = ' subtitles="false"';
+    if (vm_subtitles_v == 1) {
+       vm_subtitles = ' subtitles="true"';
     }
 
     var vm_markup_e = document.getElementsByName('vm_markup')[0];
