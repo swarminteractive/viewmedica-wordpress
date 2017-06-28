@@ -221,7 +221,7 @@ if ($_POST['swarm_hidden'] == 'C') {
     <h2 class="vm_title">Welcome</h2>
     <p>Thank you for installing ViewMedica! If this is your first time using this plugin, watch the video below to get started. And, read about some of the plugin’s helpful features below.</p>
     <div class="videoWrapper">
-      <iframe width="100%" height="300px" src="http://www.youtube.com/embed/jJB6SfZBe60?rel=0&hd=1&showinfo=0" frameborder="0" allowfullscreen></iframe>
+      <iframe width="100%" height="auto" src="//www.youtube.com/embed/jJB6SfZBe60?rel=0&hd=1&showinfo=0" frameborder="0" allowfullscreen></iframe>
     </div>
     <h4><strong>Create a page with links to your ViewMedica content</strong></h4>
     <p>Use the plugin’s Page Generator to instantly make a Web page that features all of your ViewMedica videos. You can choose to show your video links in list form, or with a thumbnail image and description.</p>
