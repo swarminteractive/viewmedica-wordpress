@@ -99,10 +99,10 @@ function swarm_viewmedica_display($atts = null, $content = null) {
     $visible = $result->vm_visible;
     $language = $result->vm_language;
 
-    // if ( $visible != 1 ) {
-    //     return '';
-    // }
-    //
+    if ( $visible == 0 ) {
+        return '';
+    }
+
     $param_string = '';
 
     if( $secure == 1 ) {
