@@ -1,21 +1,27 @@
 # ViewMedica 8 for WordPress
 
-This plugin is to help embed the ViewMedica™ Patient Education system in your WordPress site. It will help prevent WYSIWYG editors from stripping out script and HTML code that is required by your ViewMedica embed.
+This plugin is to help embed the ViewMedica&reg; Patient Education system on your WordPress site. It will help prevent WYSIWYG editors from stripping out script and HTML code that is required by your ViewMedica embed. You can also generate a full patient education section on your site in seconds!
 
-## Download
+### Instantly Embed ViewMedica
+
+The ViewMedica plugin for WordPress adds a button to the WYSIWG editor which allows you to instantly embed any video in your account. Simply click the button, select your video and press Embed.
+
+### Create a page with links to your ViewMedica content
+
+Use the plugin’s Page Generator to instantly make a Web page that features all of your ViewMedica videos. You can choose to show your video links in list form, or with a thumbnail image and description.
+
+### Change ViewMedica player settings globally
+
+The Global Options settings change the behavior of ViewMedica across your entire site. Set things like your player width, default language and other features.
+
+### Change player settings for a single embed
+
+The Inline Options settings give you control of individual ViewMedica embeds on your site. For example, you may want to disable menu access on a page so your users only see one specific video. Checkout the Shortcode Generator to see the options available, or head to a post and use our inline tool.
+
+## Setup
+
+Visit the plugin's administration page by navigating to Settings then ViewMedica. First, you will need to enter your ViewMedica client ID. You can find your Client ID by logging into your account at ViewMedica.com
+
+## Download on Github
 
 Download the latest release of the plugin at http://wordpress.org/plugins/viewmedica/
-
-## Installation
-
-*If you clone this git repo, you will need to move the downloaded files into an archive. You can also download the latest build of the plugin from http://wordpress.org/plugins/viewmedica/.*
-
-1. Download and install the plugin in WordPress. Make sure that the file you are uploading does not get automatically unzipped by your computer when it is downloaded. It should have a .zip file extension.
-
-2. Activate the plugin in the Plugins page of the WordPress administrator back end.
-
-3. Go into Settings -> Swarm Interactive and input your ViewMedica client ID.
-
-4. Create a new post and use the ViewMedica button to insert shortcode into your posts. Alternatively, you can also manually insert this shortcode: [viewmedica]
-
-5. Select a video that you would like to embed from the dropdown and an openthis code will be filled out for you automatically. Embed codes can also be found on your ViewMedica account at http://viewmedica.com/vm/login under the "Installation Support" section.
