@@ -29,32 +29,37 @@
 function swarm_install() {
 
     global $wpdb;
-    $swarm_db_version = '1.3';
+    $swarm_db_version = '1.4.5';
     $installed_version = get_option('swarm_db_version');
-    require_once( ABSPATH . 'wp-admin/includes/upgrade.php');
-
-    add_user_meta($user_id, 'swarm_ignore_notice', 'false', true);
-
-    $table_name = $wpdb->prefix . 'viewmedica';
-    $charset_collate = $wpdb->get_charset_collate();
-
-    $sql = "CREATE TABLE $table_name (
-      id mediumint(9) NOT NULL AUTO_INCREMENT,
-      vm_id mediumint(9),
-      vm_width mediumint(9),
-      vm_secure tinyint(1),
-      vm_brochures tinyint(1),
-      vm_fullscreen tinyint(1),
-      vm_disclaimer tinyint(1),
-      vm_visible tinyint(1),
-      vm_language varchar(10),
-      PRIMARY KEY  (id)
-    ) $charset_collate;";
-
-    dbDelta($sql);
 
     if ($swarm_db_version !== $installed_version) {
-      $rows_affected = $wpdb->insert( $table_name, array('id' => 1, 'vm_id' => '', 'vm_width' => 720, 'vm_secure' => 0, 'vm_fullscreen' => 1, 'vm_brochures' => 1, 'vm_disclaimer' => 1, 'vm_visible' => 1, 'vm_language' => 'en' ) );
+      $table_name = $wpdb->prefix . 'viewmedica';
+      $charset_collate = $wpdb->get_charset_collate();
+      require_once( ABSPATH . 'wp-admin/includes/upgrade.php');
+
+      $sql = "CREATE TABLE $table_name (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        vm_id mediumint(9) DEFAULT 0,
+        vm_width mediumint(9) DEFAULT 720,
+        vm_secure tinyint(1) DEFAULT 1,
+        vm_brochures tinyint(1) DEFAULT 1,
+        vm_fullscreen tinyint(1) DEFAULT 1,
+        vm_disclaimer tinyint(1) DEFAULT 1,
+        vm_visible tinyint(1) DEFAULT 1,
+        vm_language varchar(10) DEFAULT 'en',
+        PRIMARY KEY  (id)
+      ) $charset_collate;";
+
+      dbDelta($sql);
+
+      $sql = "SELECT * FROM " . $table_name . "
+              WHERE id = 1";
+      $result = $wpdb->get_results($sql, 'OBJECT');
+
+      if (!count($result)) {
+        add_user_meta($user_id, 'swarm_ignore_notice', 'false', true);
+        $rows_affected = $wpdb->insert( $table_name, array('id' => 1, 'vm_id' => '', 'vm_width' => 720, 'vm_secure' => 1, 'vm_fullscreen' => 1, 'vm_brochures' => 1, 'vm_disclaimer' => 1, 'vm_visible' => 1, 'vm_language' => 'en' ) );
+      }
     }
 
     update_option('swarm_db_version', $swarm_db_version);
@@ -270,15 +275,10 @@ function swarm_nag_ignore( $updated = false ) {
 }
 
 function swarm_uninstall() {
-
     global $wpdb;
-
     $table_name = $wpdb->prefix . 'viewmedica';
-
     $sql = 'DROP TABLE ' . $table_name;
-
     $wpdb->query($sql);
-
 }
 
 register_uninstall_hook(__FILE__, 'swarm_uninstall');
@@ -297,8 +297,8 @@ add_action('wp_enqueue_scripts', 'swarm_header');
 
 //insert swarm admin panel into 'settings'
 add_action('admin_menu', 'swarm_admin_actions');
+add_action('plugins_loaded', 'swarm_install');
 
 register_activation_hook(__FILE__, 'swarm_install');
-
 
 ?>
