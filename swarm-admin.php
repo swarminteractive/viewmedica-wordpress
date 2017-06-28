@@ -246,7 +246,7 @@ if ($_POST['swarm_hidden'] == 'C') {
           <th scope="row"><label for="vm_visible"><?php _e('ViewMedica') ?></label></th>
           <td>
             <select name="vm_visible">
-            <option value="1" <?php if($visible == 1) echo 'selected'; ?>><?php _e('Show') ?></option>
+              <option value="1" <?php if($visible == 1) echo 'selected'; ?>><?php _e('Show') ?></option>
               <option value="0" <?php if($visible == 0) echo 'selected'; ?>><?php _e('Hide') ?></option>
             </select>
           </td>
