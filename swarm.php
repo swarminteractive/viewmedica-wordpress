@@ -52,7 +52,7 @@ function swarm_install() {
 
     $rows_affected = $wpdb->insert( $table_name, array('id' => 1, 'vm_id' => '', 'vm_width' => 720, 'vm_secure' => 0, 'vm_fullscreen' => 1, 'vm_brochures' => 1, 'vm_disclaimer' => 1, 'vm_visible' => 1, 'vm_language' => 'en' ) );
 
-    add_option('swarm_db_version', '1.0');
+    add_option('swarm_db_version', '1.2');
 
 }
 
