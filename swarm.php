@@ -4,7 +4,7 @@
     Plugin Name: ViewMedica Embed
     Plugin URI: http://viewmedica.com/
     Description: Allows easy embed of ViewMedica 8 into WordPress Posts and Pages. A full description, info and pull requests can be found at https://github.com/asethwright/viewmedica-wordpress
-    Version: 1.4.1
+    Version: 1.4.2
     Author: Swarm Interactive, Inc.
     Author URI: http://swarminteractive.com/
 
@@ -35,17 +35,17 @@ function swarm_install() {
     $table_name = $wpdb->prefix . 'viewmedica';
 
     $sql = "CREATE TABLE " . $table_name . " (
-                id mediumint(9) NOT NULL AUTO_INCREMENT,
-                vm_id mediumint(9),
-                vm_width mediumint(9),
-                vm_secure tinyint(1),
-                vm_brochures tinyint(1),
-                vm_fullscreen tinyint(1),
-                vm_disclaimer tinyint(1),
-                vm_visible tinyint(1),
-                vm_language varchar(10),
-                UNIQUE KEY id (id)
-            )";
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        vm_id mediumint(9),
+        vm_width mediumint(9),
+        vm_secure tinyint(1),
+        vm_brochures tinyint(1),
+        vm_fullscreen tinyint(1),
+        vm_disclaimer tinyint(1),
+        vm_visible tinyint(1),
+        vm_language varchar(10),
+        PRIMARY KEY (id)
+    )";
 
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql);
