@@ -4,7 +4,7 @@
     Plugin Name: ViewMedica Embed
     Plugin URI: http://viewmedica.com/
     Description: Allows easy embed of ViewMedica 8 into WordPress Posts and Pages. A full description, info and pull requests can be found at https://github.com/asethwright/viewmedica-wordpress
-    Version: 1.4.3
+    Version: 1.4.4
     Author: Swarm Interactive, Inc.
     Author URI: http://swarminteractive.com/
 
@@ -29,30 +29,35 @@
 function swarm_install() {
 
     global $wpdb;
+    $swarm_db_version = '1.3';
+    $installed_version = get_option('swarm_db_version');
+    require_once( ABSPATH . 'wp-admin/includes/upgrade.php');
 
     add_user_meta($user_id, 'swarm_ignore_notice', 'false', true);
 
     $table_name = $wpdb->prefix . 'viewmedica';
+    $charset_collate = $wpdb->get_charset_collate();
 
-    $sql = "CREATE TABLE " . $table_name . " (
-        id mediumint(9) NOT NULL AUTO_INCREMENT,
-        vm_id mediumint(9),
-        vm_width mediumint(9),
-        vm_secure tinyint(1),
-        vm_brochures tinyint(1),
-        vm_fullscreen tinyint(1),
-        vm_disclaimer tinyint(1),
-        vm_visible tinyint(1),
-        vm_language varchar(10),
-        PRIMARY KEY (id)
-    )";
+    $sql = "CREATE TABLE $table_name (
+      id mediumint(9) NOT NULL AUTO_INCREMENT,
+      vm_id mediumint(9),
+      vm_width mediumint(9),
+      vm_secure tinyint(1),
+      vm_brochures tinyint(1),
+      vm_fullscreen tinyint(1),
+      vm_disclaimer tinyint(1),
+      vm_visible tinyint(1),
+      vm_language varchar(10),
+      PRIMARY KEY  (id)
+    ) $charset_collate;";
 
-    require_once( ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql);
 
-    $rows_affected = $wpdb->insert( $table_name, array('id' => 1, 'vm_id' => '', 'vm_width' => 720, 'vm_secure' => 0, 'vm_fullscreen' => 1, 'vm_brochures' => 1, 'vm_disclaimer' => 1, 'vm_visible' => 1, 'vm_language' => 'en' ) );
+    if ($swarm_db_version !== $installed_version) {
+      $rows_affected = $wpdb->insert( $table_name, array('id' => 1, 'vm_id' => '', 'vm_width' => 720, 'vm_secure' => 0, 'vm_fullscreen' => 1, 'vm_brochures' => 1, 'vm_disclaimer' => 1, 'vm_visible' => 1, 'vm_language' => 'en' ) );
+    }
 
-    add_option('swarm_db_version', '1.2');
+    update_option('swarm_db_version', $swarm_db_version);
 
 }
 
