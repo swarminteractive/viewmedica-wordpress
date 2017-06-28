@@ -250,7 +250,7 @@ function swarm_admin_notice() {
         /* Check that the user hasn't already clicked to ignore the message */
     if ( ! get_user_meta($user_id, 'swarm_ignore_notice') ) {
         echo '<div class="updated"><p>';
-        printf(__('You need to update ViewMedica (in Settings -> Swarm Interactive) with your client ID before using. | <a href="%1$s">Hide Notice</a>'), '?swarm_nag_ignore=0');
+        printf(__('You need to update ViewMedica (in Settings -> ViewMedica) with your client ID before using. | <a href="%1$s">Hide Notice</a>'), '?swarm_nag_ignore=0');
         echo "</p></div>";
     }
 }
