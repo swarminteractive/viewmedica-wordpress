@@ -1,4 +1,4 @@
-# ViewMedica 7 for WordPress
+# ViewMedica 8 for WordPress
 
 This plugin is to help embed the ViewMedica™ Patient Education system in your WordPress site. It will help prevent WYSIWYG editors from stripping out script and HTML code that is required by your ViewMedica embed.
 
