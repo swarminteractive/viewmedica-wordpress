@@ -70,6 +70,9 @@ function swarm_admin_actions() {
 
 function swarm_viewmedica_display($atts = null, $content = null) {
 
+    wp_register_script('vm_event_listener', plugins_url( 'vm_event_listener.js' , __FILE__ ), array(), '1.0.0', true );
+    wp_enqueue_script( 'vm_event_listener' );
+
     global $wpdb;
     $table_name = $wpdb->prefix . 'viewmedica';
 
@@ -109,7 +112,7 @@ function swarm_viewmedica_display($atts = null, $content = null) {
     }
 
     if( $language != 'en' ) {
-        $param_string .= 'lang="'. $lang . '"; ';
+        $param_string .= 'lang="'. $language . '"; ';
     }
 
     if( $atts != null ) {
@@ -176,7 +179,7 @@ function swarm_viewmedica_display($atts = null, $content = null) {
 
         $viewmedica_div = "<div id='vm'></div>";
 
-        $viewmedica_div .= "<script type='text/javascript'>client=\"" . $client . "\"; width=\"" . $global_width . "\"; vm_open();</script>\n<!-- ViewMedica Embed End -->";
+        $viewmedica_div .= "<script type='text/javascript'>client=\"" . $client . "\"; width=\"" . $global_width . "\"; " . $param_string  . "vm_open();</script>\n<!-- ViewMedica Embed End -->";
 
     }
 
@@ -247,7 +250,7 @@ function swarm_admin_notice() {
         /* Check that the user hasn't already clicked to ignore the message */
     if ( ! get_user_meta($user_id, 'swarm_ignore_notice') ) {
         echo '<div class="updated"><p>';
-        printf(__('You need to update ViewMedica (in Settings -> Swarm Interactive) with your client ID before using. | <a href="%1$s">Hide Notice</a>'), '?swarm_nag_ignore=0');
+        printf(__('You need to update ViewMedica (in Settings -> ViewMedica) with your client ID before using. | <a href="%1$s">Hide Notice</a>'), '?swarm_nag_ignore=0');
         echo "</p></div>";
     }
 }
