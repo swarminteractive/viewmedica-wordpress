@@ -71,8 +71,18 @@ if ($_POST['swarm_hidden'] == 'C') {
 } else if($_POST['swarm_hidden'] == 'P') {
 
   $json_string = 'https://swarminteractive.com/vm/api/video/?key=e5751ac1a513792111d47b68872b2712a9017dba&client='.$_POST['swarm_id'].'&description=true';
-  $jsondata = file_get_contents($json_string);
-  $data = json_decode($jsondata);
+
+  $rCURL = curl_init();
+
+  curl_setopt($rCURL, CURLOPT_URL, $json_string);
+  curl_setopt($rCURL, CURLOPT_HEADER, 0);
+  curl_setopt($rCURL, CURLOPT_RETURNTRANSFER, 1);
+
+  $jsondata = curl_exec($rCURL);
+
+  curl_close($rCURL);
+
+  $data = json_decode ($jsondata);
 
   $content = "[viewmedica]<br /><hr />\r\n\r\n";
   $size = $_POST['vm_size'];
