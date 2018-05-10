@@ -3,8 +3,8 @@
 /*
     Plugin Name: ViewMedica Embed
     Plugin URI: http://viewmedica.com/
-    Description: Allows easy embed of ViewMedica 8 into WordPress Posts and Pages. A full description, info and pull requests can be found at https://github.com/asethwright/viewmedica-wordpress
-    Version: 1.4.9
+    Description: Allows easy embed of ViewMedica 8 into WordPress Posts and Pages. A full description, info and pull requests can be found at https://github.com/swarminteractive/viewmedica-wordpress
+    Version: 1.4.10
     Author: Swarm Interactive, Inc.
     Author URI: http://swarminteractive.com/
 
@@ -74,7 +74,7 @@ function swarm_settings() {
 
 function swarm_admin_actions() {
 
-    add_options_page("ViewMedica", "ViewMedica", 10, "Viewmedica-Admin", "swarm_settings");
+    add_options_page("ViewMedica", "ViewMedica", "customize", "Viewmedica-Admin", "swarm_settings");
 
 }
 
