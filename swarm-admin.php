@@ -213,7 +213,7 @@ if ($_POST['swarm_hidden'] == 'C') {
 <div class="col-1-3 mobile-col-1-1">
   <div id="vm_id_div" class="content">
     <h2 class="vm_title">Get Started</h2>
-    <p>Please enter your Client ID to begin using this plugin. You can find your Client ID by logging into your account at <a href="https://www.viewmedica.com" target="_blank">ViewMedica.com</a></p>
+    <p>Please enter your Client ID to begin using this plugin. You can find your Client ID by logging into your account at <a href="https://my.viewmedica.com" target="_blank">ViewMedica.com</a></p>
     <p id="vm_id_error" style="color: red;"></p>
     <form name="swarm_admin" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
       <input type="hidden" name="swarm_hidden" value="C">
@@ -317,7 +317,7 @@ if ($_POST['swarm_hidden'] == 'C') {
     <form name="swarm_admin" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
       <input type="hidden" name="swarm_hidden" value="P">
       <input type="hidden" name="swarm_id" value="<?php echo $client; ?>">
-      <p>This will create a page based on your current ViewMedica selections. If you update your selections in your <a href="http://viewmedica.com/" target="_blank">ViewMedica.com</a> account, you will need to regenerate the page.</p>
+      <p>This will create a page based on your current ViewMedica selections. If you update your selections in your <a href="https://my.viewmedica.com/" target="_blank">ViewMedica.com</a> account, you will need to regenerate the page.</p>
       <table class="form-table">
         <tr>
           <th scope="row"><label for="vm_page">Page Name</label></td>
