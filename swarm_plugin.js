@@ -31,8 +31,8 @@ var vm_secure;
             return {
                 longname : "ViewMedica Embed",
                 author : 'Seth Wright & Anthony Lobianco',
-                authorurl : 'http://swarminteractive.com/',
-                infourl : 'http://swarminteractive.com/',
+                authorurl : 'https://swarminteractive.com/',
+                infourl : 'https://swarminteractive.com/',
                 version : "1.0"
             };
         }
