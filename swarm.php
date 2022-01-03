@@ -198,7 +198,7 @@ function swarm_viewmedica_display($atts = null, $content = null) {
 
 function swarm_header() {
 
-    wp_register_script('viewmedicascript', 'https://swarminteractive.com/js/vm.js', array(),
+    wp_register_script('viewmedicascript', 'https://ondemand.viewmedica.com/lib/vm.js', array(),
        '1.0', false );
     wp_enqueue_script( 'viewmedicascript' );
 
