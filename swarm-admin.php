@@ -133,7 +133,7 @@ if ($_POST['swarm_hidden'] == 'C') {
   }
 
   function itemFile($key, $label, $file, $size, $float) {
-    $img = "class=\"vm-link vm-image\" data-video=\"".$key."\" src=\"http://www.swarminteractive.com/images/thumbs/".$file."_".$size.".jpg\" alt=\"".$label."\"";
+    $img = "class=\"vm-link vm-image\" data-video=\"".$key."\" src=\"https://api.viewmedica.com/thumbs/".$file."_".$size.".jpg\" alt=\"".$label."\"";
     if ($float == "left") {
       $style = "style=\"padding: 0px 15px 0px 0px; float: left;\"";
     } else if ($float == "right") {
