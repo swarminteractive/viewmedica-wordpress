@@ -105,24 +105,26 @@ function swarm_viewmedica_display($atts = null, $content = null) {
 
     $param_string = '';
 
+    $param_string .= 'client: ' . $client . ', ';
+
     if( $secure == 1 ) {
-        $param_string .= 'secure="true"; ';
+        $param_string .= 'secure: "true", ';
     }
 
     if( $brochures == 0 ) {
-        $param_string .= 'brochures="false"; ';
+        $param_string .= 'brochures: "false", ';
     }
 
     if( $fullscreen == 0 ) {
-        $param_string .= 'fullscreen="false"; ';
+        $param_string .= 'fullscreen: "false", ';
     }
 
     if( $disclaimer == 0 ) {
-        $param_string .= 'disclaimer="false"; ';
+        $param_string .= 'disclaimer: "false", ';
     }
 
     if( $language != 'en' ) {
-        $param_string .= 'lang="'. $language . '"; ';
+        $param_string .= 'lang: "'. $language . '", ';
     }
 
     if( $atts != null ) {
@@ -140,56 +142,54 @@ function swarm_viewmedica_display($atts = null, $content = null) {
         $autoplay = $a['autoplay'];
 
         if ($audio != '') {
-            $param_string .= 'audio='. $audio . '; ';
+            $param_string .= 'audio: '. $audio . ', ';
         }
         if ($captions != '') {
-            $param_string .= 'captions='. $captions . '; ';
+            $param_string .= 'captions: '. $captions . ', ';
         }
         if ($subtitles != '') {
-            $param_string .= 'subtitles='. $subtitles . '; ';
+            $param_string .= 'subtitles: '. $subtitles . ', ';
         }
         if ($markup != '') {
-            $param_string .= 'markup='. $markup . '; ';
+            $param_string .= 'markup: '. $markup . ', ';
         }
         if ($search != '') {
-            $param_string .= 'search='. $search . '; ';
+            $param_string .= 'search: '. $search . ', ';
         }
         if ($sections != '') {
-            $param_string .= 'sections='. $sections . '; ';
+            $param_string .= 'sections: '. $sections . ', ';
         }
         if ($sharing != '') {
-            $param_string .= 'social='. $sharing . '; ';
+            $param_string .= 'social: '. $sharing . ', ';
         }
         if ($autoplay != '') {
-            $param_string .= 'autoplay='. $autoplay . '; ';
+            $param_string .= 'autoplay: '. $autoplay . ', ';
         }
-        if( $openthis != '' ) {
-            $viewmedica_div = "<div id='" . $openthis . "'></div>";
-            $openthis_string = 'openthis="' . $openthis . '"; ';
-        } else {
-            $viewmedica_div = "<div id='vm'></div>";
-            $openthis_string = ' ';
+        if( $menuaccess != '' ) {
+            $param_string .= 'menuaccess: "false", ';
         }
 
-        if( $menuaccess != '' ) {
-            $menuaccess_string = 'menuaccess="false"; ';
+        if($openthis != '') {
+            $viewmedica_div = "<div id='" . $openthis . "'></div>";
+            $param_string .= 'openthis: "' . $openthis . '", ';
         } else {
-            $menuaccess_string = '';
+            $viewmedica_div = "<div id='vm'></div>";
+            $param_string .= 'openthis: "vm", ';
         }
 
         if( $width != '' ) {
-            $width_string = 'width=' . $width . '; ';
+            $param_string .= 'width: ' . $width . ', ';
         } else {
-            $width_string = 'width=' . $global_width . '; ';
+            $param_string .= 'width: ' . $global_width . ', ';
         }
 
-        $viewmedica_div .= "<script type='text/javascript'>client=\"" . $client . "\"; " . $width_string .  $param_string . $openthis_string . $menuaccess_string . "vm_open();</script>\n<!-- ViewMedica Embed End -->";
+        $viewmedica_div .= "<script type='text/javascript'>" . "vmOpen({" . $param_string . "});</script>\n<!-- ViewMedica Embed End -->";
 
     } else {
 
         $viewmedica_div = "<div id='vm'></div>";
 
-        $viewmedica_div .= "<script type='text/javascript'>client=\"" . $client . "\"; width=\"" . $global_width . "\"; " . $param_string  . "vm_open();</script>\n<!-- ViewMedica Embed End -->";
+        $viewmedica_div .= "<script type='text/javascript'>vmOpen({client: \"" . $client . "\", width:\"" . $global_width . "\"" . "});</script>\n<!-- ViewMedica Embed End -->";
 
     }
 
