@@ -183,13 +183,13 @@ function swarm_viewmedica_display($atts = null, $content = null) {
             $param_string .= 'width: ' . $global_width . ', ';
         }
 
-        $viewmedica_div .= "<script type='text/javascript'>" . "vmOpen({" . $param_string . "});</script>\n<!-- ViewMedica Embed End -->";
+        $viewmedica_div .= "<script type='text/javascript'>" . "vm_open({" . $param_string . "});</script>\n<!-- ViewMedica Embed End -->";
 
     } else {
 
         $viewmedica_div = "<div id='vm'></div>";
 
-        $viewmedica_div .= "<script type='text/javascript'>vmOpen({client: \"" . $client . "\", width:\"" . $global_width . "\"" . "});</script>\n<!-- ViewMedica Embed End -->";
+        $viewmedica_div .= "<script type='text/javascript'>vm_open({client: \"" . $client . "\", width:\"" . $global_width . "\"" . "});</script>\n<!-- ViewMedica Embed End -->";
 
     }
 
