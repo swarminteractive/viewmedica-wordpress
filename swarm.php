@@ -4,11 +4,11 @@
 Plugin Name: ViewMedica Embed
 Plugin URI: http://viewmedica.com/
 Description: Allows easy embed of ViewMedica 8 into WordPress Posts and Pages. A full description, info and pull requests can be found at https://github.com/swarminteractive/viewmedica-wordpress
-Version: 1.4.14
+Version: 1.4.15
 Author: Swarm Interactive, Inc.
 Author URI: http://swarminteractive.com/
 
-Copyright 2018 SWARM_INTERACTIVE
+Copyright 2022 SWARM_INTERACTIVE
 
 (email : support@swarminteractive.com)
 
@@ -80,7 +80,7 @@ function swarm_admin_actions() {
 
 function swarm_viewmedica_display($atts = null, $content = null) {
 
-    wp_register_script('vm_event_listener', plugins_url( 'vm_event_listener.js' , __FILE__ ), array(), '1.0.0', true );
+    wp_register_script('vm_event_listener', plugins_url( 'vm_event_listener.js' , __FILE__ ), array(), '1.1.0', true );
     wp_enqueue_script( 'vm_event_listener' );
 
     global $wpdb;
@@ -105,24 +105,26 @@ function swarm_viewmedica_display($atts = null, $content = null) {
 
     $param_string = '';
 
+    $param_string .= 'client: ' . $client . ', ';
+
     if( $secure == 1 ) {
-        $param_string .= 'secure="true"; ';
+        $param_string .= 'secure: "true", ';
     }
 
     if( $brochures == 0 ) {
-        $param_string .= 'brochures="false"; ';
+        $param_string .= 'brochures: "false", ';
     }
 
     if( $fullscreen == 0 ) {
-        $param_string .= 'fullscreen="false"; ';
+        $param_string .= 'fullscreen: "false", ';
     }
 
     if( $disclaimer == 0 ) {
-        $param_string .= 'disclaimer="false"; ';
+        $param_string .= 'disclaimer: "false", ';
     }
 
     if( $language != 'en' ) {
-        $param_string .= 'lang="'. $language . '"; ';
+        $param_string .= 'lang: "'. $language . '", ';
     }
 
     if( $atts != null ) {
@@ -140,56 +142,54 @@ function swarm_viewmedica_display($atts = null, $content = null) {
         $autoplay = $a['autoplay'];
 
         if ($audio != '') {
-            $param_string .= 'audio='. $audio . '; ';
+            $param_string .= 'audio: '. $audio . ', ';
         }
         if ($captions != '') {
-            $param_string .= 'captions='. $captions . '; ';
+            $param_string .= 'captions: '. $captions . ', ';
         }
         if ($subtitles != '') {
-            $param_string .= 'subtitles='. $subtitles . '; ';
+            $param_string .= 'subtitles: '. $subtitles . ', ';
         }
         if ($markup != '') {
-            $param_string .= 'markup='. $markup . '; ';
+            $param_string .= 'markup: '. $markup . ', ';
         }
         if ($search != '') {
-            $param_string .= 'search='. $search . '; ';
+            $param_string .= 'search: '. $search . ', ';
         }
         if ($sections != '') {
-            $param_string .= 'sections='. $sections . '; ';
+            $param_string .= 'sections: '. $sections . ', ';
         }
         if ($sharing != '') {
-            $param_string .= 'social='. $sharing . '; ';
+            $param_string .= 'social: '. $sharing . ', ';
         }
         if ($autoplay != '') {
-            $param_string .= 'autoplay='. $autoplay . '; ';
+            $param_string .= 'autoplay: '. $autoplay . ', ';
         }
-        if( $openthis != '' ) {
-            $viewmedica_div = "<div id='" . $openthis . "'></div>";
-            $openthis_string = 'openthis="' . $openthis . '"; ';
-        } else {
-            $viewmedica_div = "<div id='vm'></div>";
-            $openthis_string = ' ';
+        if( $menuaccess != '' ) {
+            $param_string .= 'menuaccess: "false", ';
         }
 
-        if( $menuaccess != '' ) {
-            $menuaccess_string = 'menuaccess="false"; ';
+        if($openthis != '') {
+            $viewmedica_div = "<div id='" . $openthis . "'></div>";
+            $param_string .= 'openthis: "' . $openthis . '", ';
         } else {
-            $menuaccess_string = '';
+            $viewmedica_div = "<div id='vm'></div>";
+            $param_string .= 'openthis: "vm", ';
         }
 
         if( $width != '' ) {
-            $width_string = 'width=' . $width . '; ';
+            $param_string .= 'width: ' . $width . ', ';
         } else {
-            $width_string = 'width=' . $global_width . '; ';
+            $param_string .= 'width: ' . $global_width . ', ';
         }
 
-        $viewmedica_div .= "<script type='text/javascript'>client=\"" . $client . "\"; " . $width_string .  $param_string . $openthis_string . $menuaccess_string . "vm_open();</script>\n<!-- ViewMedica Embed End -->";
+        $viewmedica_div .= "<script type='text/javascript'>" . "vm_open({" . $param_string . "});</script>\n<!-- ViewMedica Embed End -->";
 
     } else {
 
         $viewmedica_div = "<div id='vm'></div>";
 
-        $viewmedica_div .= "<script type='text/javascript'>client=\"" . $client . "\"; width=\"" . $global_width . "\"; " . $param_string  . "vm_open();</script>\n<!-- ViewMedica Embed End -->";
+        $viewmedica_div .= "<script type='text/javascript'>vm_open({client: \"" . $client . "\", width:\"" . $global_width . "\"" . "});</script>\n<!-- ViewMedica Embed End -->";
 
     }
 
@@ -198,8 +198,8 @@ function swarm_viewmedica_display($atts = null, $content = null) {
 
 function swarm_header() {
 
-    wp_register_script('viewmedicascript', 'https://swarminteractive.com/js/vm.js', array(),
-       '1.0', false );
+    wp_register_script('viewmedicascript', 'https://ondemand.viewmedica.com/lib/vm.js', array(),
+       '1.1', false );
     wp_enqueue_script( 'viewmedicascript' );
 
 }

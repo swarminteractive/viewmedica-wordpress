@@ -70,7 +70,7 @@ if ($_POST['swarm_hidden'] == 'C') {
 
 } else if($_POST['swarm_hidden'] == 'P') {
 
-  $json_string = 'https://swarminteractive.com/vm/api/video/?key=e5751ac1a513792111d47b68872b2712a9017dba&client='.$_POST['swarm_id'].'&description=true';
+  $json_string = "https://api.viewmedica.com/wordpress/users/".$_POST['swarm_id']."/profile";
 
   $rCURL = curl_init();
 
@@ -84,7 +84,7 @@ if ($_POST['swarm_hidden'] == 'C') {
 
   $data = json_decode ($jsondata);
 
-  $content = "[viewmedica]<br /><hr />\r\n\r\n";
+  $content = "[viewmedica]<br /><hr />\r\n\r\n<div>";
   $size = $_POST['vm_size'];
   $float = $_POST['vm_thumbnail'];
   $format = $_POST['vm_format'];
@@ -113,8 +113,8 @@ if ($_POST['swarm_hidden'] == 'C') {
     return "<h4>".$label."</h4>\r\n\r\n";
   }
 
-  function item($key, $label, $file, $size, $float, $description, $format) {
-    $itemTitle = itemTitle($key, $label, $format);
+  function child($key, $label, $file, $size, $float, $description, $format, $level) {
+    $itemTitle = itemTitle($key, $label, $format, $level);
     $itemFile = itemFile($key, $label, $file, $size, $float);
     $itemDescription = itemDescription($description);
     if ($format == "div") {
@@ -124,16 +124,16 @@ if ($_POST['swarm_hidden'] == 'C') {
     }
   }
 
-  function itemTitle($key, $label, $format) {
+  function itemTitle($key, $label, $format, $level) {
     if ($format == "div") {
-      return "<a href=\"#\" title=\"".$label."\" class=\"vm-link\" data-video=\"".$key."\"><h3>".$label."</h3></a>\r\n\r\n";
+      return "<p><a href=\"#\" class=\"vm-link level-" . $level . "\" data-video=\"" . $key . "\" >" . $label. "</a></p>\r\n\r\n";
     } else {
-      return "<a href=\"#\" title=\"".$label."\"><li class=\"vm-link vm-list-item\" data-video=\"".$key."\">".$label."</li></a>\r\n\r\n";
+      return "<li><a href=\"#\" class=\"vm-link level-" . $level . "\" data-video=\"" . $key . "\" >" . $label . "</a></li>\r\n\r\n";
     }
   }
 
   function itemFile($key, $label, $file, $size, $float) {
-    $img = "class=\"vm-link vm-image\" data-video=\"".$key."\" src=\"http://www.swarminteractive.com/images/thumbs/".$file."_".$size.".jpg\" alt=\"".$label."\"";
+    $img = "class=\"vm-link vm-image\" data-video=\"".$key."\" src=\"https://api.viewmedica.com/thumbs/".$file."_".$size.".jpg\" alt=\"".$label."\"";
     if ($float == "left") {
       $style = "style=\"padding: 0px 15px 0px 0px; float: left;\"";
     } else if ($float == "right") {
@@ -148,20 +148,38 @@ if ($_POST['swarm_hidden'] == 'C') {
     return "<p>".$description."</p>\r\n\r\n";
   }
 
-  foreach($data->libraries as $library) {
-    foreach($library->collections as $collection) {
-      $content .= $collectionDiv.collectionTitle($collection->label);
-      foreach($collection->groups as $group) {
-        $content .= $groupDiv.groupTitle($group->label).$itemList;
-        foreach($group->items as $itemKey => $item) {
-          $content .= $itemDiv.item($itemKey, $item->label, $item->file, $size, $float, $item->description->en, $format).$closeItemDiv;
-        }
-        $content .= $closeList.$closeDiv;
-      }
-      $content .= "</div>\r\n\r\n";
+  function handleItem($item, $level, $format, $size, $float) {
+    if (!$item->children) {
+      return child($item->code, $item->labels->en, $item->file, $size, $float, $item->descriptions->en, $format, $level);
     }
+    
+    $children = "<div class=\"level-" . $level . "\">";
+      
+    foreach($item->children as $child) {
+      $children .= handleItem($child, $level + 1, $format, $size, $float);
+    }
+      
+    $children .= "</div>";
+
+    $headingOpen = "<p>";
+
+    $headingClose = "</p>";
+
+    if ($level > 0 && $level < 7) {
+      $headingOpen = "<h".$level.">";
+
+      $headingClose =  "</h".$level.">";
+    }
+    
+    return $headingOpen . "<a href=\"#\" class=\"vm-link level-" . $level . "\" data-video=\"" . $item->code . "\" >" . $item->labels->en . "</a>" . $headingClose . "\r\n\r\n" . $children;
+  }
+  
+  foreach($data as $item) {
+    $content .= handleItem($item, 1, $format, $size, $float);
   }
 
+  $content .= "</div";
+  
   $post = array(
     'post_title' => $_POST['vm_page'],
     'post_content' => $content,
@@ -213,7 +231,7 @@ if ($_POST['swarm_hidden'] == 'C') {
 <div class="col-1-3 mobile-col-1-1">
   <div id="vm_id_div" class="content">
     <h2 class="vm_title">Get Started</h2>
-    <p>Please enter your Client ID to begin using this plugin. You can find your Client ID by logging into your account at <a href="https://www.viewmedica.com" target="_blank">ViewMedica.com</a></p>
+    <p>Please enter your Client ID to begin using this plugin. You can find your Client ID by logging into your account at <a href="https://my.viewmedica.com" target="_blank">ViewMedica.com</a></p>
     <p id="vm_id_error" style="color: red;"></p>
     <form name="swarm_admin" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
       <input type="hidden" name="swarm_hidden" value="C">
@@ -317,7 +335,7 @@ if ($_POST['swarm_hidden'] == 'C') {
     <form name="swarm_admin" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
       <input type="hidden" name="swarm_hidden" value="P">
       <input type="hidden" name="swarm_id" value="<?php echo $client; ?>">
-      <p>This will create a page based on your current ViewMedica selections. If you update your selections in your <a href="http://viewmedica.com/" target="_blank">ViewMedica.com</a> account, you will need to regenerate the page.</p>
+      <p>This will create a page based on your current ViewMedica selections. If you update your selections in your <a href="https://my.viewmedica.com/" target="_blank">ViewMedica.com</a> account, you will need to regenerate the page.</p>
       <table class="form-table">
         <tr>
           <th scope="row"><label for="vm_page">Page Name</label></td>
@@ -591,7 +609,7 @@ function pageOptions() {
 
     jQuery.ajax({
       dataType: "json",
-        url: 'https://swarminteractive.com/vm/index/client_json/' + vm_id ,
+        url: 'https://api.viewmedica.com/wordpress/users/' + vm_id + '/profile',
         success: function(data) {
           var client_id_description = document.getElementById('client-id-description');
           var globalOptions = document.getElementById('globalOptions');
@@ -622,29 +640,27 @@ function pageOptions() {
     });
   }
 
+  function handleItem(item, level) {
+    if (!item.children) {
+      return `<option value="${item.code}">${"--".repeat(level)} ${item.labels.en}</option>`;
+    }
+
+    var children = "";
+
+    item.children.forEach((child) => {
+      children += handleItem(child, level + 1);
+    });
+
+    return `<option value="${item.code}">${"--".repeat(level)} ${item.labels.en}</option>` + children;
+    
+  }
+
   function build(profile) {
     var html = '<option value="">Main Embed</option>';
 
-    for (var lib_key in profile.libraries) {
-      var l = profile.libraries[lib_key];
-      html += '<option value="' + lib_key + '">' + l.label + '</option>';
-
-      for (var col_key in profile.libraries[lib_key].collections) {
-        var c = profile.libraries[lib_key].collections[col_key];
-        html += '<option value="' + col_key + '">-- ' + c.label + '</option>';
-
-        for (var grp_key in profile.libraries[lib_key].collections[col_key].groups) {
-          var g = profile.libraries[lib_key].collections[col_key].groups[grp_key];
-          html += '<option value="' + grp_key + '">---- ' + g.label + '</option>';
-
-          for (var item_key in profile.libraries[lib_key].collections[col_key].groups[grp_key].items) {
-            var r = profile.libraries[lib_key].collections[col_key].groups[grp_key].items[item_key];
-            var label = r.label.replace('|', "");
-            html += '<option value="' + item_key + '">------ ' + label + '</option>';
-          }
-        }
-      }
-    }
+    profile.forEach((item) => {
+      html += handleItem(item, 1); 
+    });
 
     var vm_location = document.getElementsByName('vm_location')[0];
     vm_location.innerHTML = html;

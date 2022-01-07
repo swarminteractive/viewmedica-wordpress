@@ -1,6 +1,9 @@
-jQuery('.vm-link').click(function(e) {
-  var vmvid = jQuery(this).data('video');
+function vmLinkHandler() {
+  var vmvid = this.dataset.video;
   console.log(vmvid);
-  _vm.navigate(vmvid);
-});
+  window._vm.navigate(vmvid);
+}
 
+document.querySelectorAll(".vm-link").forEach((vmLink) => {
+  vmLink.addEventListener("click", vmLinkHandler);
+})
