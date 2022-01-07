@@ -4,11 +4,11 @@
 Plugin Name: ViewMedica Embed
 Plugin URI: http://viewmedica.com/
 Description: Allows easy embed of ViewMedica 8 into WordPress Posts and Pages. A full description, info and pull requests can be found at https://github.com/swarminteractive/viewmedica-wordpress
-Version: 1.4.14
+Version: 1.4.15
 Author: Swarm Interactive, Inc.
 Author URI: http://swarminteractive.com/
 
-Copyright 2018 SWARM_INTERACTIVE
+Copyright 2022 SWARM_INTERACTIVE
 
 (email : support@swarminteractive.com)
 
@@ -80,7 +80,7 @@ function swarm_admin_actions() {
 
 function swarm_viewmedica_display($atts = null, $content = null) {
 
-    wp_register_script('vm_event_listener', plugins_url( 'vm_event_listener.js' , __FILE__ ), array(), '1.0.0', true );
+    wp_register_script('vm_event_listener', plugins_url( 'vm_event_listener.js' , __FILE__ ), array(), '1.1.0', true );
     wp_enqueue_script( 'vm_event_listener' );
 
     global $wpdb;
@@ -199,7 +199,7 @@ function swarm_viewmedica_display($atts = null, $content = null) {
 function swarm_header() {
 
     wp_register_script('viewmedicascript', 'https://ondemand.viewmedica.com/lib/vm.js', array(),
-       '1.0', false );
+       '1.1', false );
     wp_enqueue_script( 'viewmedicascript' );
 
 }
