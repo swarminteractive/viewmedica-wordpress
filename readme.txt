@@ -5,11 +5,11 @@ Tags: viewmedica, medical, videos
 Requires at least: 3.0.0
 Tested up to: 4.9.5
 Requires PHP: 5.2.4
-Stable tag: 1.4.14
+Stable tag: 1.4.15
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-# ViewMedica 8 for WordPress
+# ViewMedica 9 for WordPress
 
 Instantly embed your ViewMedica On-Demand in to your website
 
