@@ -1,5 +1,5 @@
 === ViewMedica 8 ===
-Contributors: sethawright
+Contributors: sethawright, swarminteractive
 Donate link: http://viewmedica.com/
 Tags: viewmedica, medical, videos
 Requires at least: 3.0.0
