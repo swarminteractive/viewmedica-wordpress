@@ -64,8 +64,8 @@ function vm_plugin_init() {
                 </tr>\
                 <tr>\
                     <th><label for="viewmedica-width">Player Width</label></th>\
-                    <td><input type="text" id="viewmedica_width" name="width" value="" /><br />\
-                    <small>Set a maximum width for the ViewMedica content. Leave blank for default set on options page.</small></td>\
+                    <td><input type="text" id="viewmedica_width" name="width" value="" />px<br />\
+                    <small>Set a maximum width for the ViewMedica content in pixels. Leave blank for default set on options page.</small></td>\
                 </tr>\
                 <tr>\
                     <th><label for="viewmedica-menuaccess">Turn Off Menu Access</label></th>\
@@ -78,18 +78,13 @@ function vm_plugin_init() {
                     <small>Mute the ViewMedica Player by default</small></td>\
                 </tr>\
                 <tr>\
-                    <th><label for="viewmedica-autoplay">Autoplay Video</label></th>\
-                    <td><input type="checkbox" id="viewmedica_autoplay" name="autoplay" value="true" /><br />\
-                    <small>Attempt to autoplay the video (does not work on mobile)</small></td>\
-                </tr>\
-                <tr>\
                     <th><label for="viewmedica-captions">Hide Captions Button</label></th>\
                     <td><input type="checkbox" id="viewmedica_captions" name="captions" value="false" /><br />\
                     <small>Closed captioning button is not visible for the user</small></td>\
                 </tr>\
                 <tr>\
                     <th><label for="viewmedica-subtitles">Show Subtitles</label></th>\
-                    <td><input type="checkbox" id="viewmedica_subtitles" name="subtitles" value="false" /><br />\
+                    <td><input type="checkbox" id="viewmedica_subtitles" name="subtitles" value="true" /><br />\
                     <small>Subtitles are shown by default when a video is playing</small></td>\
                 </tr>\
                 <tr>\
@@ -115,7 +110,7 @@ function vm_plugin_init() {
 
         jQuery.ajax({
             dataType: "json",
-            url: 'https://swarminteractive.com/vm/index/client_json/' + vm_client,
+            url: 'https://api.viewmedica.com/wordpress/users/' + vm_client + '/profile',
             success: function(data) {
                 build(data, form);
             }
@@ -129,12 +124,12 @@ function vm_plugin_init() {
                     'openthis': '',
                     'width': '',
                     'audio': '',
-                    'autoplay': '',
                     'captions': '',
                     'subtitles': '',
                     'markup': '',
                     'sections': '',
-                    'sharing': ''
+                    'sharing': '',
+					'menuaccess': ''
                 };
                 var shortcode = '[viewmedica';
 
@@ -142,17 +137,19 @@ function vm_plugin_init() {
                     var value = table.find('#viewmedica_' + index).val();
                     if (table.find('#viewmedica_'+index).is(':checkbox')) {
                       // attaches the attribute to the shortcode only if it's different from the default value
-                      if ( table.find('#viewmedica_'+index).is(':checked') && value != '' )
-                          shortcode += ' ' + index + '="' + value + '"';
+                      if ( table.find('#viewmedica_'+index).is(':checked') && value != '' ) {
+                            shortcode += ' ' + index + '="' + value + '"';
+                      }
                    } else {
                      // attaches the attribute to the shortcode only if it's different from the default value
                      if ( value !== options[index] && value != '' )
-                       shortcode += ' ' + index + '="' + value + '"';
+                        if (index === 'width') {
+                            shortcode += ' ' + index + '="' + parseInt(value) + '"';
+                        } else {
+                            shortcode += ' ' + index + '="' + value + '"';
+                        }
+                       
                      }
-                }
-
-                if( table.find('#viewmedica_menuaccess').attr('checked') == 'checked' ) {
-                    shortcode += ' menuaccess="false"';
                 }
 
                 shortcode += ']';
@@ -168,42 +165,33 @@ function vm_plugin_init() {
 
 }
 
-function build(profile, form)
-{
+function handleItem(item, level) {
+    if (!item.children) {
+        return `<option value="${item.code}">${"--".repeat(level)} ${item.labels.en}</option>`;
+    }
+
+    var children = "";
+
+    item.children.forEach((child) => {
+        children += handleItem(child, level + 1);
+    });
+
+    return `<option value="${item.code}">${"--".repeat(level)} ${item.labels.en}</option>` + children;
+
+}
+
+function build(profile, form) {
     var html = '<select id="vm-open" style="width: 100%"><option value="">Main Embed</option>\
                     ';
-
-    for (var lib_key in profile.libraries) {
-
-        var l = profile.libraries[lib_key];
-        html += '<option value="' + lib_key + '">' + l.label + '</option>';
-
-        for (var col_key in profile.libraries[lib_key].collections) {
-
-            var c = profile.libraries[lib_key].collections[col_key];
-            html += '<option value="' + col_key + '">-- ' + c.label + '</option>';
-
-            for (var grp_key in profile.libraries[lib_key].collections[col_key].groups) {
-
-                var g = profile.libraries[lib_key].collections[col_key].groups[grp_key];
-                html += '<option value="' + grp_key + '">---- ' + g.label + '</option>';
-
-                for (var item_key in profile.libraries[lib_key].collections[col_key].groups[grp_key].items) {
-                    var r = profile.libraries[lib_key].collections[col_key].groups[grp_key].items[item_key];
-                    var label = r.label.replace('|', "");
-                    html += '<option value="' + item_key + '">------ ' + label + '</option>';
-                }
-
-            }
-        }
-    }
+    profile.forEach((item) => {
+        html += handleItem(item, 1); 
+    });
 
     html+= '</select>';
 
-    form.find('#open-selector').html(html);
+    document.querySelector("#open-selector").innerHTML = html;
 
-    form.find('#vm-open').change(function() {
-        jQuery('#viewmedica_openthis').val( jQuery(this).val() );
-    });
-
+    document.querySelector("#vm-open").addEventListener("change", function(e) {
+        document.querySelector("#viewmedica_openthis").value = e.target.value;
+    })
 }
