@@ -299,6 +299,14 @@ add_action('wp_enqueue_scripts', 'swarm_header');
 add_action('admin_menu', 'swarm_admin_actions');
 add_action('plugins_loaded', 'swarm_install');
 
+function thickbox() 
+{
+    add_thickbox();
+}
+
+add_action('admin_enqueue_scripts', 'thickbox');
+
+
 register_activation_hook(__FILE__, 'swarm_install');
 
 ?>
