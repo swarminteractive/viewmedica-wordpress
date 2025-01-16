@@ -1,9 +1,17 @@
 <?php
-
 global $wpdb;
 $table_name = $wpdb->prefix . 'viewmedica';
 
+// Generate nonces for the forms
+$nonce_c = wp_create_nonce('viewmedica_action_c');
+$nonce_y = wp_create_nonce('viewmedica_action_y');
+$nonce_p = wp_create_nonce('viewmedica_action_p');
+
 if ($_POST['swarm_hidden'] == 'C') {
+
+  if (!isset($_POST['_wpnonce']) || !wp_verify_nonce($_POST['_wpnonce'], 'viewmedica_action_c')) {
+    die('Invalid request');
+  }
 
   swarm_nag_ignore(true);
 
@@ -30,6 +38,10 @@ if ($_POST['swarm_hidden'] == 'C') {
   $language = $result->vm_language;
 
 } else if($_POST['swarm_hidden'] == 'Y') {
+
+  if (!isset($_POST['_wpnonce']) || !wp_verify_nonce($_POST['_wpnonce'], 'viewmedica_action_y')) {
+    die('Invalid request');
+  }
 
   swarm_nag_ignore(true);
 
@@ -69,6 +81,10 @@ if ($_POST['swarm_hidden'] == 'C') {
   $language = $result->vm_language;
 
 } else if($_POST['swarm_hidden'] == 'P') {
+
+  if (!isset($_POST['_wpnonce']) || !wp_verify_nonce($_POST['_wpnonce'], 'viewmedica_action_p')) {
+    die('Invalid request');
+  }
 
   $json_string = "https://api.viewmedica.com/wordpress/users/".$_POST['swarm_id']."/profile";
 
@@ -235,14 +251,16 @@ if ($_POST['swarm_hidden'] == 'C') {
     <p id="vm_id_error" style="color: red;"></p>
     <form name="swarm_admin" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
       <input type="hidden" name="swarm_hidden" value="C">
+      <input type="hidden" name="_wpnonce" value="<?php echo $nonce_c; ?>"> <!-- Add nonce here -->
       <table class="form-table">
-        <tr>
-          <th scope="row"><label for="vm_id"><?php _e('Client ID') ?></label></th>
-          <td><input id="vm_id" type="text" name="vm_id" value="<?php echo $client; ?>" size="14" aria-describedby="client-id-description"><p class="description" id="client-id-description">verifying...</p></td>
-        </tr>
+          <tr>
+              <th scope="row"><label for="vm_id"><?php _e('Client ID') ?></label></th>
+              <td><input id="vm_id" type="text" name="vm_id" value="<?php echo $client; ?>" size="14" aria-describedby="client-id-description"><p class="description" id="client-id-description">verifying...</p></td>
+          </tr>
       </table>
       <input type="submit" name="Submit" value="<?php _e('Set Client ID', 'swarm_trdom' ) ?>" class="button button-primary" style="margin-top: 20px;" />
     </form>
+
   </div>
 
   <div id="welcome" class="content">
@@ -264,11 +282,12 @@ if ($_POST['swarm_hidden'] == 'C') {
   <div id="globalOptions" class="content disabled">
     <h2 class="vm_title"><?php _e('Global Options') ?></h2>
     <form name="swarm_admin" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
-      <input type="hidden" name="swarm_hidden" value="Y">
-      <table class="form-table">
+    <input type="hidden" name="swarm_hidden" value="Y">
+    <input type="hidden" name="_wpnonce" value="<?php echo $nonce_y; ?>"> <!-- Add nonce here -->
+    <table class="form-table">
         <tr>
-          <th scope="row"><label for="vm_width"><?php _e('Width') ?></label></th>
-          <td><input type="text" name="vm_width" value="<?php echo $width; ?>" size="14" aria-describedby="width-description"><p class="description" id="width-description">720px by default</p>
+            <th scope="row"><label for="vm_width"><?php _e('Width') ?></label></th>
+            <td><input type="text" name="vm_width" value="<?php echo $width; ?>" size="14" aria-describedby="width-description"><p class="description" id="width-description">720px by default</p>
         </tr>
         <tr>
           <th scope="row"><label for="vm_visible"><?php _e('ViewMedica') ?></label></th>
@@ -325,7 +344,7 @@ if ($_POST['swarm_hidden'] == 'C') {
             </select>
           </td>
         </tr>
-    </table>
+        </table>
     <input id="updateOptionsButton" type="submit" name="Submit" value="<?php _e('Update Options', 'swarm_trdom' ) ?>" class="button button-primary" style="margin-top: 20px;" />
   </form>
 </div>
@@ -333,13 +352,14 @@ if ($_POST['swarm_hidden'] == 'C') {
   <div id="pageGenerator" class="content disabled">
     <h2 class="vm_title"><?php _e('Page Generator') ?></h2>
     <form name="swarm_admin" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
-      <input type="hidden" name="swarm_hidden" value="P">
-      <input type="hidden" name="swarm_id" value="<?php echo $client; ?>">
-      <p>This will create a page based on your current ViewMedica selections. If you update your selections in your <a href="https://my.viewmedica.com/" target="_blank">ViewMedica.com</a> account, you will need to regenerate the page.</p>
-      <table class="form-table">
+    <input type="hidden" name="swarm_hidden" value="P">
+    <input type="hidden" name="_wpnonce" value="<?php echo $nonce_p; ?>"> <!-- Add nonce here -->
+    <input type="hidden" name="swarm_id" value="<?php echo $client; ?>">
+    <p>This will create a page based on your current ViewMedica selections...</p>
+    <table class="form-table">
         <tr>
-          <th scope="row"><label for="vm_page">Page Name</label></td>
-          <td><input type="text" name="vm_page" /></td>
+            <th scope="row"><label for="vm_page">Page Name</label></td>
+            <td><input type="text" name="vm_page" /></td>
         </tr>
         <tr>
           <th scope="row"><label for="vm_format">Format</label></th>
@@ -369,8 +389,8 @@ if ($_POST['swarm_hidden'] == 'C') {
           </select>
           </td>
         </tr>
-      </table>
-      <input id="generatePageButton" class="button button-primary" style="margin-top: 20px;" type="submit" name="Submit" value="Generate Page" />
+        </table>
+    <input id="generatePageButton" class="button button-primary" style="margin-top: 20px;" type="submit" name="Submit" value="Generate Page" />
     </form>
   </div>
 </div>
